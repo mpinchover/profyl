@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Text,
@@ -7,6 +8,7 @@ import {
   Link,
   Button,
   LinkBox,
+  Icon,
 } from "@chakra-ui/react";
 import profile_image from "./profile.png";
 import google_image from "./google.png";
@@ -18,6 +20,7 @@ import { RiDownload2Fill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
+
 import { RiEditFill } from "react-icons/ri";
 import { Tabs } from "@chakra-ui/react";
 import { Butterfly_Kids } from "next/font/google";
@@ -28,21 +31,14 @@ const sectionDividerMd = "20px";
 
 const WorkExp = () => {
   return (
-    <HStack fontSize="sm" gapY={0}>
-      {/* <Image
-        borderRadius="md"
-        src={google_image.src}
-        width="40px"
-        height="auto"
-        aspectRatio={1 / 1}
-      /> */}
-      <VStack alignItems="start" gapY={0}>
+    <HStack fontSize="sm">
+      <VStack alignItems="start" gapY={1}>
         <HStack>
           <Text>Google</Text>
           {/* <Text>|</Text> */}
           <Text fontWeight="200">Software engineer </Text>
         </HStack>
-        <HStack fontSize={fontSm} fontWeight="200">
+        <HStack fontWeight="200">
           <Text>May 2024 </Text>
           <RxArrowRight size={fontSm} />
           {/* <Text fontSize="xs"> |</Text> */}
@@ -56,13 +52,13 @@ const WorkExp = () => {
 const Education = () => {
   return (
     <HStack fontSize="sm">
-      <VStack alignItems="start" gapY={0}>
+      <VStack alignItems="start" gapY={1}>
         <HStack>
           <Text>Columbia University</Text>
           <Text fontWeight="200">B.A</Text>
           {/* <Text>|</Text> */}
         </HStack>
-        <HStack fontSize={fontSm} fontWeight="200">
+        <HStack fontWeight="200">
           <Text>May 2024 </Text>
           <RxArrowRight size={fontSm} />
           {/* <Text fontSize="xs"> |</Text> */}
@@ -82,42 +78,66 @@ const PLink = () => {
   );
 };
 
-const UpdateButton = () => {
+// const UpdateButton = () => {
+//   return (
+//     <Link
+//       // onClick={handleClick}
+//       fontSize={fontSm}
+//       right="0px"
+//       position="absolute"
+//     >
+//       <RiEditFill /> <Text>Update</Text>
+//     </Link>
+//   );
+// };
+
+const SectionTitle = ({ title }) => {
   return (
-    <Link fontSize={fontSm} right="0px" position="absolute">
-      <RiEditFill /> <Text>Update</Text>
-    </Link>
+    <HStack color="gray.200" position="relative" width="100%">
+      <IoMdBriefcase />
+      <Text fontWeight={"600"}>{title}</Text>
+    </HStack>
   );
 };
 
 export default function Home() {
+  const handleClick = () => {
+    toaster.create({
+      title: "Copied link",
+      // description: "Toast Description",
+    });
+  };
+
   return (
-    <Box
+    <VStack
       paddingBottom="20px"
       paddingTop="80px"
       minHeight="100dvh"
-      bgColor="gray.500"
+      bgColor="gray.800"
     >
-      <Box paddingX={{ base: "10px", sm: "100px" }}>
-        <VStack gapY={0} alignItems="start">
-          <Image
-            width="140px"
-            height="140px"
-            borderRadius="md"
-            src={profile_image.src}
-          />
+      <VStack alignItems="start" width="100%" maxWidth="600px">
+        <VStack gapY={0} alignItems="start" width="100%">
+          <VStack width="100%" alignItems="center">
+            <Image
+              width="100px"
+              height="100px"
+              borderRadius="full"
+              src={profile_image.src}
+            />
 
-          <Text fontSize="sm" mt="5px">
-            Igor Ezmayavitch
-          </Text>
-          <HStack fontSize={fontSm}>
-            <FiPaperclip size={fontSm} />
-            <Text>Copy link to profile</Text>
-          </HStack>
-          <HStack fontSize={fontSm}>
-            <RiDownload2Fill size={fontSm} />
-            <Text>Download as CV</Text>
-          </HStack>
+            <Text fontSize="lg" mt="5px">
+              Igor Ezmayavitch
+            </Text>
+            <HStack>
+              <Button borderRadius="full" p={1} bgColor="gray.700">
+                <Icon color="gray.100" as={FiPaperclip} boxSize={4} />
+              </Button>
+              <Button borderRadius="full" p={1} bgColor="gray.700">
+                <Icon color="gray.100" as={RiDownload2Fill} boxSize={4} />
+              </Button>
+            </HStack>
+          </VStack>
+          {/* <HStack fontSize={fontSm}> */}
         </VStack>
 
         <VStack
@@ -125,61 +145,42 @@ export default function Home() {
           mt={sectionDividerMd}
           alignItems="start"
           width="100%"
-          gap={0}
         >
-          <HStack position="relative" width="100%">
-            <IoMdBriefcase />
-            <Text fontWeight={"600"} fontSize="sm">
-              Experience
-            </Text>
-
-            <UpdateButton />
-          </HStack>
+          <SectionTitle title="Experience" />
 
           {Array.from({ length: 2 }).map((e, i) => {
             return (
-              <Box gap={0} key={i} width="100%">
+              <Box key={i} width="100%">
                 <WorkExp />
-                {i < 1 && <Separator my={dividerSm} borderColor="gray.400" />}
+                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
               </Box>
             );
           })}
         </VStack>
-        <VStack mt={sectionDividerMd} alignItems="start" width="100%" gap={0}>
-          <HStack width="100%" position="relative" fontSize="sm">
-            <IoSchoolSharp />
-            <Text fontWeight={"600"}>Education</Text>
-
-            <UpdateButton />
-          </HStack>
+        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
+          <SectionTitle title="Education" />
 
           {Array.from({ length: 2 }).map((e, i) => {
             return (
               <Box key={i} width="100%">
                 <Education />
-                {i < 1 && <Separator my={dividerSm} borderColor="gray.400" />}
+                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
               </Box>
             );
           })}
         </VStack>
-        <VStack mt={sectionDividerMd} alignItems="start" width="100%" gap={0}>
-          <HStack position="relative" width="100%">
-            <FaExternalLinkSquareAlt />
-            <Text fontWeight={"600"} fontSize="sm">
-              Links
-            </Text>
-            <UpdateButton />
-          </HStack>
+        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
+          <SectionTitle title="Links" />
           {Array.from({ length: 2 }).map((e, i) => {
             return (
               <Box key={i} width="100%">
                 <PLink />
-                {i < 1 && <Separator my={dividerSm} borderColor="gray.400" />}
+                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
               </Box>
             );
           })}
         </VStack>
-      </Box>
-    </Box>
+      </VStack>
+    </VStack>
   );
 }

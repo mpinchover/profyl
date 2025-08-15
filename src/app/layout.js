@@ -2,6 +2,8 @@ import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
 import Navbar from "@/components/navbar";
 import { Box } from "@chakra-ui/react";
+import { Toaster, toaster } from "@/components/ui/toaster";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,6 +26,7 @@ export default function RootLayout(props) {
     <html suppressHydrationWarning className={`${montserrat.variable}`}>
       <body>
         <Provider>
+          <Toaster />
           <Navbar />
           {children}
         </Provider>
