@@ -20,10 +20,12 @@ import { RiDownload2Fill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
+import { IoMdImage } from "react-icons/io";
 
-import { RiEditFill } from "react-icons/ri";
+
 import { Tabs } from "@chakra-ui/react";
 import { Butterfly_Kids } from "next/font/google";
+import { SectionTitle } from "./common";
 
 const fontSm = "10px";
 const dividerSm = "8px";
@@ -166,12 +168,19 @@ const PLink = ({ url }) => {
   );
 };
 
-const SectionTitle = ({ title }) => {
+const ArtworkItem = ({ src }) => {};
+
+const Artwork = ({ data }) => {
   return (
-    <HStack color="gray.200" position="relative" width="100%">
-      <IoMdBriefcase />
-      <Text fontWeight={"600"}>{title}</Text>
-    </HStack>
+    <>
+      {data.map((e, i) => {
+        return (
+          <Box key={i} width="100%">
+            <ArtworkItem src={e.src} />
+          </Box>
+        );
+      })}
+    </>
   );
 };
 
@@ -189,6 +198,7 @@ export default function Home() {
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
+      paddingX={{ base: "20px", sm: "none" }}
     >
       <VStack alignItems="start" width="100%" maxWidth="600px">
         <VStack gapY={0} alignItems="start" width="100%">
@@ -219,16 +229,20 @@ export default function Home() {
           alignItems="start"
           width="100%"
         >
-          <SectionTitle title="Experience" />
+          <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
           <WorkExperience data={fakeWorkExpData} />
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%">
-          <SectionTitle title="Education" />
+          <SectionTitle title="Education" icon={<IoSchoolSharp />} />
           <Education data={fakeEduData} />
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%">
-          <SectionTitle title="Links" />
+          <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
           <ProfileLinks data={fakeLinks} />
+        </VStack>
+        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
+          <SectionTitle title="Artwork" icon={<IoMdImage />} />
+          <Artwork data={[{}, {}]} />
         </VStack>
       </VStack>
     </VStack>
