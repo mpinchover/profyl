@@ -29,20 +29,73 @@ const fontSm = "10px";
 const dividerSm = "8px";
 const sectionDividerMd = "20px";
 
-const WorkExp = () => {
+const fakeWorkExpData = [
+  {
+    start: "July 2024",
+    end: "now",
+    company: "Uber",
+    title: "Software engineer",
+  },
+  {
+    start: "June 2023",
+    end: "May 2024",
+    company: "Sword Health",
+    title: "Software engineer",
+  },
+];
+
+const fakeEduData = [
+  {
+    start: "September 2016",
+    end: "May 2020",
+    name: "Columbia",
+    degree: "B.A",
+  },
+];
+
+const fakeLinks = [
+  {
+    url: "github.com/mpinchover",
+  },
+  {
+    url: "medium.com/mpinch",
+  },
+];
+
+const WorkExperience = ({ data }) => {
+  return (
+    <>
+      {data.map((e, i) => {
+        return (
+          <Box key={i} width="100%">
+            <WorkExpItem
+              title={e.title}
+              company={e.company}
+              start={e.start}
+              end={e.end}
+            />
+            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
+          </Box>
+        );
+      })}
+    </>
+  );
+};
+
+const WorkExpItem = ({ start, end, title, company }) => {
   return (
     <HStack fontSize="sm">
       <VStack alignItems="start" gapY={1}>
         <HStack>
-          <Text>Google</Text>
+          <Text>{company}</Text>
           {/* <Text>|</Text> */}
-          <Text fontWeight="200">Software engineer </Text>
+          <Text fontWeight="200">{title} </Text>
         </HStack>
         <HStack fontWeight="200">
-          <Text>May 2024 </Text>
+          <Text>{start}</Text>
           <RxArrowRight size={fontSm} />
           {/* <Text fontSize="xs"> |</Text> */}
-          <Text>now</Text>
+          <Text>{end}</Text>
         </HStack>
       </VStack>
     </HStack>
@@ -51,45 +104,67 @@ const WorkExp = () => {
 
 const Education = () => {
   return (
+    <>
+      {fakeEduData.map((e, i) => {
+        return (
+          <Box key={i} width="100%">
+            <EducationItem
+              name={e.name}
+              start={e.start}
+              end={e.end}
+              degree={e.degree}
+            />
+            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
+          </Box>
+        );
+      })}
+    </>
+  );
+};
+
+const EducationItem = ({ start, end, name, degree }) => {
+  return (
     <HStack fontSize="sm">
       <VStack alignItems="start" gapY={1}>
         <HStack>
-          <Text>Columbia University</Text>
-          <Text fontWeight="200">B.A</Text>
+          <Text>{name}</Text>
+          <Text fontWeight="200">{degree}</Text>
           {/* <Text>|</Text> */}
         </HStack>
         <HStack fontWeight="200">
-          <Text>May 2024 </Text>
+          <Text>{start}</Text>
           <RxArrowRight size={fontSm} />
           {/* <Text fontSize="xs"> |</Text> */}
-          <Text>now</Text>
+          <Text>{end}</Text>
         </HStack>
       </VStack>
     </HStack>
   );
 };
 
-const PLink = () => {
+const ProfileLinks = ({ data }) => {
   return (
-    <HStack fontSize={"sm"} alignItems="center">
-      {/* <RxGithubLogo /> */}
-      <Link>github.com/mpinchover</Link>
-    </HStack>
+    <>
+      {data.map((e, i) => {
+        return (
+          <Box key={i} width="100%">
+            <PLink url={e.url} />
+            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
+          </Box>
+        );
+      })}
+    </>
   );
 };
 
-// const UpdateButton = () => {
-//   return (
-//     <Link
-//       // onClick={handleClick}
-//       fontSize={fontSm}
-//       right="0px"
-//       position="absolute"
-//     >
-//       <RiEditFill /> <Text>Update</Text>
-//     </Link>
-//   );
-// };
+const PLink = ({ url }) => {
+  return (
+    <HStack fontSize={"sm"} alignItems="center">
+      {/* <RxGithubLogo /> */}
+      <Link>{url}</Link>
+    </HStack>
+  );
+};
 
 const SectionTitle = ({ title }) => {
   return (
@@ -137,9 +212,7 @@ export default function Home() {
               </Button>
             </HStack>
           </VStack>
-          {/* <HStack fontSize={fontSm}> */}
         </VStack>
-
         <VStack
           position="relative"
           mt={sectionDividerMd}
@@ -147,38 +220,15 @@ export default function Home() {
           width="100%"
         >
           <SectionTitle title="Experience" />
-
-          {Array.from({ length: 2 }).map((e, i) => {
-            return (
-              <Box key={i} width="100%">
-                <WorkExp />
-                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
-              </Box>
-            );
-          })}
+          <WorkExperience data={fakeWorkExpData} />
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%">
           <SectionTitle title="Education" />
-
-          {Array.from({ length: 2 }).map((e, i) => {
-            return (
-              <Box key={i} width="100%">
-                <Education />
-                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
-              </Box>
-            );
-          })}
+          <Education data={fakeEduData} />
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%">
           <SectionTitle title="Links" />
-          {Array.from({ length: 2 }).map((e, i) => {
-            return (
-              <Box key={i} width="100%">
-                <PLink />
-                {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
-              </Box>
-            );
-          })}
+          <ProfileLinks data={fakeLinks} />
         </VStack>
       </VStack>
     </VStack>
