@@ -1,4 +1,13 @@
-import { Box, Text, Image, VStack, HStack, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Image,
+  VStack,
+  HStack,
+  Link,
+  Button,
+  LinkBox,
+} from "@chakra-ui/react";
 import profile_image from "./profile.png";
 import google_image from "./google.png";
 import { FiPaperclip } from "react-icons/fi";
@@ -9,7 +18,9 @@ import { RiDownload2Fill } from "react-icons/ri";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
+import { RiEditFill } from "react-icons/ri";
 import { Tabs } from "@chakra-ui/react";
+import { Butterfly_Kids } from "next/font/google";
 
 const fontSm = "10px";
 const dividerSm = "8px";
@@ -65,9 +76,17 @@ const Education = () => {
 const PLink = () => {
   return (
     <HStack fontSize={"sm"} alignItems="center">
-      <RxGithubLogo />
+      {/* <RxGithubLogo /> */}
       <Link>github.com/mpinchover</Link>
     </HStack>
+  );
+};
+
+const UpdateButton = () => {
+  return (
+    <Link fontSize={fontSm} right="0px" position="absolute">
+      <RiEditFill /> <Text>Update</Text>
+    </Link>
   );
 };
 
@@ -82,8 +101,8 @@ export default function Home() {
       <Box paddingX={{ base: "10px", sm: "100px" }}>
         <VStack gapY={0} alignItems="start">
           <Image
-            width="100px"
-            height="100px"
+            width="140px"
+            height="140px"
             borderRadius="md"
             src={profile_image.src}
           />
@@ -108,11 +127,13 @@ export default function Home() {
           width="100%"
           gap={0}
         >
-          <HStack>
+          <HStack position="relative" width="100%">
             <IoMdBriefcase />
             <Text fontWeight={"600"} fontSize="sm">
               Experience
             </Text>
+
+            <UpdateButton />
           </HStack>
 
           {Array.from({ length: 2 }).map((e, i) => {
@@ -125,12 +146,13 @@ export default function Home() {
           })}
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%" gap={0}>
-          <HStack>
+          <HStack width="100%" position="relative" fontSize="sm">
             <IoSchoolSharp />
-            <Text fontWeight={"600"} fontSize="sm">
-              Education
-            </Text>
+            <Text fontWeight={"600"}>Education</Text>
+
+            <UpdateButton />
           </HStack>
+
           {Array.from({ length: 2 }).map((e, i) => {
             return (
               <Box key={i} width="100%">
@@ -141,11 +163,12 @@ export default function Home() {
           })}
         </VStack>
         <VStack mt={sectionDividerMd} alignItems="start" width="100%" gap={0}>
-          <HStack>
+          <HStack position="relative" width="100%">
             <FaExternalLinkSquareAlt />
             <Text fontWeight={"600"} fontSize="sm">
               Links
             </Text>
+            <UpdateButton />
           </HStack>
           {Array.from({ length: 2 }).map((e, i) => {
             return (
