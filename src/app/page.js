@@ -9,6 +9,7 @@ import {
   Button,
   LinkBox,
   Icon,
+  StackSeparator,
 } from "@chakra-ui/react";
 import profile_image from "./profile.png";
 import google_image from "./google.png";
@@ -21,7 +22,6 @@ import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
-
 
 import { Tabs } from "@chakra-ui/react";
 import { Butterfly_Kids } from "next/font/google";
@@ -63,10 +63,9 @@ const fakeLinks = [
     url: "medium.com/mpinch",
   },
 ];
-
 const WorkExperience = ({ data }) => {
   return (
-    <>
+    <VStack separator={<StackSeparator borderColor="gray.600" />}>
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -76,11 +75,10 @@ const WorkExperience = ({ data }) => {
               start={e.start}
               end={e.end}
             />
-            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
           </Box>
         );
       })}
-    </>
+    </VStack>
   );
 };
 
@@ -106,7 +104,7 @@ const WorkExpItem = ({ start, end, title, company }) => {
 
 const Education = () => {
   return (
-    <>
+    <VStack separator={<StackSeparator borderColor="gray.600" />}>
       {fakeEduData.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -116,11 +114,10 @@ const Education = () => {
               end={e.end}
               degree={e.degree}
             />
-            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
           </Box>
         );
       })}
-    </>
+    </VStack>
   );
 };
 
@@ -146,16 +143,15 @@ const EducationItem = ({ start, end, name, degree }) => {
 
 const ProfileLinks = ({ data }) => {
   return (
-    <>
+    <VStack separator={<StackSeparator borderColor="gray.600" />}>
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
             <PLink url={e.url} />
-            {i < 1 && <Separator mt={dividerSm} borderColor="gray.600" />}
           </Box>
         );
       })}
-    </>
+    </VStack>
   );
 };
 
@@ -223,26 +219,30 @@ export default function Home() {
             </HStack>
           </VStack>
         </VStack>
-        <VStack
-          position="relative"
-          mt={sectionDividerMd}
-          alignItems="start"
-          width="100%"
-        >
-          <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
-          <WorkExperience data={fakeWorkExpData} />
-        </VStack>
-        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
-          <SectionTitle title="Education" icon={<IoSchoolSharp />} />
-          <Education data={fakeEduData} />
-        </VStack>
-        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
-          <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
-          <ProfileLinks data={fakeLinks} />
-        </VStack>
-        <VStack mt={sectionDividerMd} alignItems="start" width="100%">
-          <SectionTitle title="Artwork" icon={<IoMdImage />} />
-          <Artwork data={[{}, {}]} />
+
+        <VStack gap={14}>
+          <VStack
+            position="relative"
+            mt={sectionDividerMd}
+            alignItems="start"
+            width="100%"
+            gapY={4}
+          >
+            <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
+            <WorkExperience data={fakeWorkExpData} />
+          </VStack>
+          <VStack gapY={4} alignItems="start" width="100%">
+            <SectionTitle title="Education" icon={<IoSchoolSharp />} />
+            <Education data={fakeEduData} />
+          </VStack>
+          <VStack gapY={4} alignItems="start" width="100%">
+            <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
+            <ProfileLinks data={fakeLinks} />
+          </VStack>
+          <VStack gapY={4} alignItems="start" width="100%">
+            <SectionTitle title="Artwork" icon={<IoMdImage />} />
+            <Artwork data={[{}, {}]} />
+          </VStack>
         </VStack>
       </VStack>
     </VStack>

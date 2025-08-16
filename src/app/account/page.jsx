@@ -12,10 +12,17 @@ import {
   StackSeparator,
   Link,
   Image,
+  Button,
 } from "@chakra-ui/react";
 import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
-import { SectionTitle } from "../common";
+import { SectionTitle, AccountSectionTitleLink } from "../common";
+import { IoMdBriefcase } from "react-icons/io";
+import { IoSchoolSharp } from "react-icons/io5";
+import { FaExternalLinkSquareAlt } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
+import { IoSettingsSharp } from "react-icons/io5";
+import { IoPerson } from "react-icons/io5";
 
 const dividerSm = "8px";
 
@@ -224,6 +231,72 @@ const AccountSettings = () => {
   );
 };
 
+// const Account = () => {
+//   return (
+//     <VStack
+//       paddingBottom="80px"
+//       paddingTop="80px"
+//       minHeight="100dvh"
+//       bgColor="gray.800"
+//       paddingX={{ base: "20px", sm: "none" }}
+//       gapY={14}
+//     >
+//       <VStack width="100%" alignItems="center" position="relative">
+//         <Box
+//           borderRadius="full"
+//           transition="filter 0.2s ease"
+//           _hover={{ filter: "brightness(0.5)" }}
+//           overflow="hidden"
+//         >
+//           <Image
+//             width="100px"
+//             height="100px"
+//             src={profile_image.src}
+//             cursor="pointer"
+//           />
+//         </Box>
+//         {/* <Button
+//           _hover={{ background: "transparent" }}
+//           bottom="15%"
+//           variant="ghost"
+//           size="xs"
+//           position="absolute"
+//         >
+//           Update
+//         </Button> */}
+//       </VStack>
+// <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+//   <VStack width="100" alignItems="start" gapY={0}>
+//     <SectionTitle title="Account" />
+//     {/* <UpdateButton /> */}
+//   </VStack>
+//   <AccountSettings />
+// </VStack>
+//       <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+//         <VStack width="100" alignItems="start" gapY={0}>
+//           <SectionTitle title="Personal" />
+//           <UpdateButton />
+//         </VStack>
+//         <Personal />
+//       </VStack>
+//       <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+//         <VStack width="100" alignItems="start" gapY={0}>
+//           <SectionTitle title="Experience" />
+//           <UpdateButton />
+//         </VStack>
+//         <Experience data={fakeWorkExpData} />
+//       </VStack>
+//       <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+//         <VStack width="100" alignItems="start" gapY={0}>
+//           <SectionTitle title="Education" />
+//           <UpdateButton />
+//         </VStack>
+//         <Education data={fakeEduData} />
+//       </VStack>
+//     </VStack>
+//   );
+// };
+
 const Account = () => {
   return (
     <VStack
@@ -234,44 +307,33 @@ const Account = () => {
       paddingX={{ base: "20px", sm: "none" }}
       gapY={14}
     >
-      <VStack width="100%" alignItems="center">
-        <Image
-          width="100px"
-          height="100px"
+      <VStack width="100%" alignItems="center" position="relative">
+        <Box
           borderRadius="full"
-          src={profile_image.src}
+          transition="filter 0.2s ease"
+          _hover={{ filter: "brightness(0.5)" }}
+          overflow="hidden"
+        >
+          <Image
+            width="100px"
+            height="100px"
+            src={profile_image.src}
+            cursor="pointer"
+          />
+        </Box>
+      </VStack>
+
+      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+        <AccountSectionTitleLink icon={<IoSettingsSharp />} title="Account" />
+        <AccountSectionTitleLink icon={<IoPerson />} title="Personal" />
+        <AccountSectionTitleLink icon={<IoMdBriefcase />} title="Experience" />
+        <AccountSectionTitleLink icon={<IoSchoolSharp />} title="Education" />
+        <AccountSectionTitleLink
+          icon={<FaExternalLinkSquareAlt />}
+          title="Links"
         />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Account" />
-          {/* <UpdateButton /> */}
-        </VStack>
-        <AccountSettings />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Personal" />
-          <UpdateButton />
-        </VStack>
-        <Personal />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Experience" />
-          <UpdateButton />
-        </VStack>
-        <Experience data={fakeWorkExpData} />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Education" />
-          <UpdateButton />
-        </VStack>
-        <Education data={fakeEduData} />
       </VStack>
     </VStack>
   );
 };
-
 export default Account;
