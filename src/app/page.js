@@ -65,7 +65,7 @@ const fakeLinks = [
 ];
 const WorkExperience = ({ data }) => {
   return (
-    <VStack separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -104,7 +104,7 @@ const WorkExpItem = ({ start, end, title, company }) => {
 
 const Education = () => {
   return (
-    <VStack separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
       {fakeEduData.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -143,7 +143,7 @@ const EducationItem = ({ start, end, name, degree }) => {
 
 const ProfileLinks = ({ data }) => {
   return (
-    <VStack separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -190,7 +190,7 @@ export default function Home() {
 
   return (
     <VStack
-      paddingBottom="20px"
+      paddingBottom="100px"
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
@@ -209,6 +209,7 @@ export default function Home() {
             <Text fontSize="lg" mt="5px">
               Igor Ezmayavitch
             </Text>
+            {/* <Text fontSize="xs">@i_ezmaya</Text> */}
             <HStack>
               <Button borderRadius="full" p={1} bgColor="gray.700">
                 <Icon color="gray.100" as={FiPaperclip} boxSize={4} />
@@ -220,29 +221,15 @@ export default function Home() {
           </VStack>
         </VStack>
 
-        <VStack gap={14}>
-          <VStack
-            position="relative"
-            mt={sectionDividerMd}
-            alignItems="start"
-            width="100%"
-            gapY={4}
-          >
-            <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
-            <WorkExperience data={fakeWorkExpData} />
-          </VStack>
-          <VStack gapY={4} alignItems="start" width="100%">
-            <SectionTitle title="Education" icon={<IoSchoolSharp />} />
-            <Education data={fakeEduData} />
-          </VStack>
-          <VStack gapY={4} alignItems="start" width="100%">
-            <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
-            <ProfileLinks data={fakeLinks} />
-          </VStack>
-          <VStack gapY={4} alignItems="start" width="100%">
-            <SectionTitle title="Artwork" icon={<IoMdImage />} />
-            <Artwork data={[{}, {}]} />
-          </VStack>
+        <VStack mt="50px" gap={10} alignContent="start" width="100%">
+          <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
+          <WorkExperience data={fakeWorkExpData} />
+          <SectionTitle title="Education" icon={<IoSchoolSharp />} />
+          <Education data={fakeEduData} />
+          <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
+          <ProfileLinks data={fakeLinks} />
+          {/* <SectionTitle title="Artwork" icon={<IoMdImage />} /> */}
+          {/* <Artwork data={[{}, {}]} /> */}
         </VStack>
       </VStack>
     </VStack>
