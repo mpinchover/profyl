@@ -61,11 +61,23 @@ export const UpdateButton = ({ handleClick }) => {
 
 export const AccountSaveCancelBtns = ({ handleSave, handleCancel }) => {
   return (
-    <VStack width="100%" alignItems="start" bottom="20px" position="fixed">
-      <Button onClick={handleSave} width="140px">
+    <VStack
+      paddingX={{ base: "20px", sm: "none" }}
+      width="100%"
+      alignItems="start"
+      bottom="20px"
+      position="fixed"
+      // left="0px"
+      // right="0px"
+    >
+      <Button onClick={handleSave} width={{ base: "100%", sm: "140px" }}>
         Save
       </Button>
-      <Button onClick={handleCancel} variant="subtle" width="140px">
+      <Button
+        onClick={handleCancel}
+        variant="subtle"
+        width={{ base: "100%", sm: "140px" }}
+      >
         Cancel
       </Button>
     </VStack>
