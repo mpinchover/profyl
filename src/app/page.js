@@ -22,9 +22,8 @@ import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
+import { Toaster, toaster } from "@/components/ui/toaster";
 
-import { Tabs } from "@chakra-ui/react";
-import { Butterfly_Kids } from "next/font/google";
 import { SectionTitle } from "./common";
 
 const fontSm = "10px";
@@ -181,7 +180,7 @@ const Artwork = ({ data }) => {
 };
 
 export default function Home() {
-  const handleClick = () => {
+  const handleCopyLink = () => {
     toaster.create({
       title: "Copied link",
       // description: "Toast Description",
@@ -211,7 +210,12 @@ export default function Home() {
             </Text>
             {/* <Text fontSize="xs">@i_ezmaya</Text> */}
             <HStack>
-              <Button borderRadius="full" p={1} bgColor="gray.700">
+              <Button
+                onClick={handleCopyLink}
+                borderRadius="full"
+                p={1}
+                bgColor="gray.700"
+              >
                 <Icon color="gray.100" as={FiPaperclip} boxSize={4} />
               </Button>
               <Button borderRadius="full" p={1} bgColor="gray.700">
