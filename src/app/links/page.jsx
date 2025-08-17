@@ -13,38 +13,43 @@ import {
   Link,
   Image,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
-import { SectionTitle, AccountSectionTitleLink } from "../common";
+import {
+  SectionTitle,
+  AccountSectionTitleLink,
+  Back,
+  UpdateButton,
+  AccountSaveCancelBtns,
+} from "../common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoPerson } from "react-icons/io5";
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { useState } from "react";
 
-const dividerSm = "8px";
-
-const fakeLinks = [
-  {
-    url: "github.com/mpinchover",
-  },
-  {
-    url: "medium.com/mpinch",
-  },
+const fakeProfileLinksData = [
+  { url: "github.com/mpinchover" },
+  { url: "medium.com/mpinchover" },
+  { url: "artstation.com/mpinchover" },
 ];
 
-const UpdateButton = () => {
+const ProfileLinkItem = ({ disabled, url }) => {
   return (
-    <Link fontSize="xs">
-      <RiEditFill />
-      Update
-    </Link>
+    <VStack gapY={4} width="100%">
+      <Field.Root disabled={disabled} width="100%">
+        <Input bgColor="gray.900" value={url} />
+      </Field.Root>
+    </VStack>
   );
 };
 
-const Experience = ({ data = [] }) => {
+const ProfileLinkData = ({ data = [], disabled }) => {
   if (data.length === 0) return null;
 
   return (
@@ -55,84 +60,58 @@ const Experience = ({ data = [] }) => {
       alignItems="start"
     >
       {data.map((e, i) => (
-        <ExpItem
-          key={e.id ?? i}
-          title={e.title}
-          company={e.company}
-          start={e.start}
-          end={e.end}
-        />
+        <ProfileLinkItem disabled={disabled} key={e.id ?? i} url={e.url} />
       ))}
     </VStack>
   );
 };
 
-const Links = () => {
+const ProfileLinks = () => {
+  const [staticState, setStaticState] = useState(true);
+
+  const toggleShowSaveButtons = () => {
+    setStaticState((prev) => !prev);
+  };
+
+  const handleSave = () => {
+    toggleShowSaveButtons();
+  };
+
+  const handleCancel = () => {
+    toggleShowSaveButtons();
+  };
+
   return (
     <VStack
-      paddingBottom="80px"
+      paddingBottom={staticState ? "80px" : "140px"}
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
       paddingX={{ base: "20px", sm: "none" }}
       gapY={14}
     >
-      <VStack width="100%" alignItems="center" position="relative">
-        <Box
-          borderRadius="full"
-          transition="filter 0.2s ease"
-          _hover={{ filter: "brightness(0.5)" }}
-          overflow="hidden"
-        >
-          <Image
-            width="100px"
-            height="100px"
-            src={profile_image.src}
-            cursor="pointer"
+      <VStack
+        position="relative"
+        alignItems="start"
+        width="100%"
+        maxWidth="600px"
+        gapY={10}
+      >
+        <Back route="settings" />
+        <VStack width="100" alignItems="start" gapY={0}>
+          <SectionTitle title="Links" />
+          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
+        </VStack>
+        <ProfileLinkData disabled={staticState} data={fakeProfileLinksData} />
+        {!staticState && (
+          <AccountSaveCancelBtns
+            handleCancel={handleCancel}
+            handleSave={handleSave}
           />
-        </Box>
-        {/* <Button
-          _hover={{ background: "transparent" }}
-          bottom="15%"
-          variant="ghost"
-          size="xs"
-          position="absolute"
-        >
-          Update
-        </Button> */}
+        )}
       </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Account" />
-          {/* <UpdateButton /> */}
-        </VStack>
-        <AccountSettings />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Personal" />
-          <UpdateButton />
-        </VStack>
-        <Personal />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Experience" />
-          <UpdateButton />
-        </VStack>
-        <Experience data={fakeWorkExpData} />
-      </VStack>
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <VStack width="100" alignItems="start" gapY={0}>
-          <SectionTitle title="Education" />
-          <UpdateButton />
-        </VStack>
-        <Education data={fakeEduData} />
-      </VStack>
-
-      
     </VStack>
   );
 };
 
-export default Links;
+export default ProfileLinks;

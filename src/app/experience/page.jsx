@@ -144,7 +144,7 @@ const Experience = () => {
         maxWidth="600px"
         gapY={10}
       >
-        <Back />
+        <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Experience" />
           {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}

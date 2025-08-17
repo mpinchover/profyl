@@ -130,7 +130,7 @@ const Education = () => {
       gapY={14}
     >
       <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
-        <Back />
+        <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Education" />
           {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}

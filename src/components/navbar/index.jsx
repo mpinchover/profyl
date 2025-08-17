@@ -1,8 +1,11 @@
 "use client";
-import { HStack, Menu, Text, Button, Portal } from "@chakra-ui/react";
+import { HStack, Menu, Text, Button, Portal, Link } from "@chakra-ui/react";
 import { RiMenu4Line } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
     <HStack
       justifyContent="center"
@@ -17,9 +20,16 @@ const Navbar = () => {
         width="100%"
         maxWidth="600px"
       >
-        <Text fontSize="16px" fontWeight="500" color="white">
-          Profyl
-        </Text>
+        <Link
+          active={{ outline: "none" }}
+          _focus={{ outline: "none", boxShadow: "none" }}
+          _hover={{ textDecoration: "none" }}
+          href="/"
+        >
+          <Text fontSize="16px" fontWeight="500" color="white">
+            Profyl
+          </Text>
+        </Link>
         <Menu.Root>
           <Menu.Trigger asChild>
             <RiMenu4Line size={"20px"} />
@@ -27,8 +37,18 @@ const Navbar = () => {
           <Portal>
             <Menu.Positioner>
               <Menu.Content>
-                <Menu.Item value="new-txt">Settings</Menu.Item>
-                <Menu.Item value="new-file">Logout</Menu.Item>
+                <Menu.Item
+                  onClick={() => router.push("/settings")}
+                  value="new-txt"
+                >
+                  Settings
+                </Menu.Item>
+                <Menu.Item
+                  onClick={() => router.push("/login")}
+                  value="new-file"
+                >
+                  Logout
+                </Menu.Item>
               </Menu.Content>
             </Menu.Positioner>
           </Portal>

@@ -14,7 +14,12 @@ export const SectionTitle = ({ title, icon }) => {
 
 export const AccountSectionTitleLink = ({ title, icon }) => {
   return (
-    <Link>
+    <Link
+      active={{ outline: "none" }}
+      _focus={{ outline: "none", boxShadow: "none" }}
+      _hover={{ textDecoration: "none" }}
+      href={`/${title.toLowerCase()}`}
+    >
       <HStack color="gray.200" position="relative" width="100%">
         {icon}
         <Text fontWeight={"600"}>{title}</Text>
@@ -23,9 +28,16 @@ export const AccountSectionTitleLink = ({ title, icon }) => {
   );
 };
 
-export const Back = ({ handleClick }) => {
+export const Back = ({ handleClick, route }) => {
   return (
-    <Link onClick={handleClick} fontSize="xs">
+    <Link
+      active={{ outline: "none" }}
+      _focus={{ outline: "none", boxShadow: "none" }}
+      _hover={{ textDecoration: "none" }}
+      href={`/${route}`}
+      onClick={handleClick}
+      fontSize="xs"
+    >
       <RiArrowLeftSLine size={18} />
       Back
     </Link>
