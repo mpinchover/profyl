@@ -1,24 +1,30 @@
 "use client";
-import {
-  Box,
-  Text,
-  Image,
-  VStack,
-  HStack,
-  Link,
-  Button,
-  LinkBox,
-  Icon,
-  StackSeparator,
-} from "@chakra-ui/react";
+import { VStack, Button, Grid, Center, Text, Flex } from "@chakra-ui/react";
 import { GrGoogle } from "react-icons/gr";
-import { FaApple } from "react-icons/fa";
+import { FaApple, FaGithub, FaDiscord } from "react-icons/fa";
 
 const LoginOAuth = ({ title, icon }) => {
   return (
-    <Button width={{ base: "100%", sm: "50%" }}>
-      {icon}
-      Login with {title}
+    <Button
+      w="100%"
+      maxW="300px" // all buttons share the same max width
+      h="48px" // consistent height
+      // variant="outline"
+      p={0}
+      justifyContent="flex-start"
+    >
+      <Grid
+        w="100%"
+        templateColumns="40px 1fr" // fixed icon column + flexible text column
+        alignItems="center"
+        columnGap={3}
+        px={4}
+      >
+        <Center boxSize="32px">{icon}</Center>
+        <Text textAlign="center" w="100%">
+          Login with {title}
+        </Text>
+      </Grid>
     </Button>
   );
 };
@@ -30,29 +36,26 @@ const Login = () => {
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
-      paddingX={{ base: "20px", sm: "none" }}
-      // position="relative"
+      px={{ base: "20px", sm: 0 }}
       height="100dvh"
     >
-      <VStack
+      <Flex
         position="relative"
-        alignItems="start"
-        width="100%"
-        maxWidth="600px"
-        height="100%"
+        alignItems="center"
+        justifyContent="center"
+        w="100%"
+        maxW="600px"
+        h="100%"
       >
-        <VStack
-          position="absolute"
-          left="50%"
-          top="50%"
-          transform={"translate(-50%,-50%)"}
-          alignItems="center"
-          width="100%"
-        >
+        <VStack w="100%" spacing={3}>
+          {" "}
+          {/* equal vertical spacing between buttons */}
           <LoginOAuth icon={<GrGoogle />} title="Google" />
           <LoginOAuth icon={<FaApple />} title="Apple" />
+          <LoginOAuth icon={<FaGithub />} title="Github" />
+          <LoginOAuth icon={<FaDiscord />} title="Discord" />
         </VStack>
-      </VStack>
+      </Flex>
     </VStack>
   );
 };
