@@ -27,6 +27,7 @@ import { IoMdImage } from "react-icons/io";
 import { Toaster, toaster } from "@/components/ui/toaster";
 
 import { SectionTitle } from "./common";
+import { useState } from "react";
 
 const fontSm = "10px";
 const dividerSm = "8px";
@@ -89,6 +90,10 @@ const WorkExperience = ({ data }) => {
 };
 
 const WorkExpItem = ({ start, end, title, company, description }) => {
+  const [hidden, setHidden] = useState(true);
+  const handleSeeMore = () => {
+    setHidden((prev) => !prev);
+  };
   return (
     <HStack bgColor="gray.900" p="20px" fontSize="sm" w="100%">
       <VStack alignItems="start" spacing={1} w="100%">
@@ -105,31 +110,41 @@ const WorkExpItem = ({ start, end, title, company, description }) => {
 
         {/* One-line clamp + fade + ellipsis */}
         <Box position="relative" w="100%">
-          <Text lineClamp={1}>{description}</Text>
+          <Text transition="0.2s ease" lineClamp={hidden ? 1 : "none"}>
+            {description}
+          </Text>
 
           {/* Fade overlay (matches bgColor) */}
-          <Flex
+          <Box
             position="absolute"
+            opacity={hidden ? 1 : 0}
+            transition="0.2s ease"
             right="0"
             top="0"
             bottom="0"
-            w="100px"
+            w="100%"
             // height="30px"
             pointerEvents="none"
             // border="solid 1px red"
             bgGradient="to-l"
             gradientFrom="gray.900"
-            gradientVia="gray.900"
+            // gradientVia="gray.900"
             gradientTo="transparent"
-            justifyContent="end"
+            // justifyContent="end"
             // bgImage="linear-gradient(black 90%, white 10%)"
             // bgGradient="linear(to-r, red.900, transparent)"
-          >
-            <Button zIndex={10} variant="subtle" size="xs">
-              More
-            </Button>
-          </Flex>
+          ></Box>
         </Box>
+        <Link
+          onClick={handleSeeMore}
+          transition="0.2s ease"
+          _hover={{ color: "white" }}
+          zIndex={10}
+          variant="subtle"
+          fontSize="xs"
+        >
+          {hidden ? "See more" : "See less"}
+        </Link>
       </VStack>
     </HStack>
   );
