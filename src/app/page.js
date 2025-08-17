@@ -64,7 +64,7 @@ const fakeLinks = [
 ];
 const WorkExperience = ({ data }) => {
   return (
-    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%">
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -83,7 +83,7 @@ const WorkExperience = ({ data }) => {
 
 const WorkExpItem = ({ start, end, title, company }) => {
   return (
-    <HStack fontSize="sm">
+    <HStack bgColor="gray.900" p={"20px"} fontSize="sm">
       <VStack alignItems="start" gapY={1}>
         <HStack>
           <Text>{company}</Text>
@@ -103,7 +103,7 @@ const WorkExpItem = ({ start, end, title, company }) => {
 
 const Education = () => {
   return (
-    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%">
       {fakeEduData.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -122,7 +122,7 @@ const Education = () => {
 
 const EducationItem = ({ start, end, name, degree }) => {
   return (
-    <HStack fontSize="sm">
+    <HStack bgColor="gray.900" p={"20px"} fontSize="sm">
       <VStack alignItems="start" gapY={1}>
         <HStack>
           <Text>{name}</Text>
@@ -142,7 +142,7 @@ const EducationItem = ({ start, end, name, degree }) => {
 
 const ProfileLinks = ({ data }) => {
   return (
-    <VStack width="100%" separator={<StackSeparator borderColor="gray.600" />}>
+    <VStack width="100%">
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -156,7 +156,7 @@ const ProfileLinks = ({ data }) => {
 
 const PLink = ({ url }) => {
   return (
-    <HStack fontSize={"sm"} alignItems="center">
+    <HStack bgColor="gray.900" p={"20px"} fontSize={"sm"} alignItems="center">
       {/* <RxGithubLogo /> */}
       <Link>{url}</Link>
     </HStack>
