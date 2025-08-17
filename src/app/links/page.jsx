@@ -129,6 +129,8 @@ const Links = () => {
         </VStack>
         <Education data={fakeEduData} />
       </VStack>
+
+      
     </VStack>
   );
 };

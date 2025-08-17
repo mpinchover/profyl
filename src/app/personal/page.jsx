@@ -16,27 +16,25 @@ import {
 } from "@chakra-ui/react";
 import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
-import { SectionTitle, AccountSectionTitleLink } from "../common";
+import {
+  SectionTitle,
+  AccountSectionTitleLink,
+  AccountSaveCancelBtns,
+  UpdateButton,
+  Back,
+} from "../common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoPerson } from "react-icons/io5";
+import { useState } from "react";
 
-const UpdateButton = () => {
-  return (
-    <Link fontSize="xs">
-      <RiEditFill />
-      Update
-    </Link>
-  );
-};
-
-const PersonalData = () => {
+const PersonalData = ({ disabled }) => {
   return (
     <VStack width="100%" gapY={4}>
-      <Field.Root width="100%">
+      <Field.Root disabled={disabled} width="100%">
         <Field.Label>Name</Field.Label>
         <Input
           onChange={() => {}}
@@ -45,7 +43,7 @@ const PersonalData = () => {
           placeholder="Enter your email"
         />
       </Field.Root>
-      <Field.Root width="100%">
+      <Field.Root disabled={disabled} width="100%">
         <Field.Label>Handle</Field.Label>
         <Input
           onChange={() => {}}
@@ -59,6 +57,20 @@ const PersonalData = () => {
 };
 
 const Personal = () => {
+  const [staticState, setStaticState] = useState(true);
+
+  const toggleShowSaveButtons = () => {
+    setStaticState((prev) => !prev);
+  };
+
+  const handleSave = () => {
+    toggleShowSaveButtons();
+  };
+
+  const handleCancel = () => {
+    toggleShowSaveButtons();
+  };
+
   return (
     <VStack
       paddingBottom="80px"
@@ -69,11 +81,18 @@ const Personal = () => {
       gapY={14}
     >
       <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+        <Back />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Personal" />
-          <UpdateButton />
+          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
         </VStack>
-        <PersonalData />
+        <PersonalData disabled={staticState} />
+        {!staticState && (
+          <AccountSaveCancelBtns
+            handleCancel={handleCancel}
+            handleSave={handleSave}
+          />
+        )}
       </VStack>
     </VStack>
   );

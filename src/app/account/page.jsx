@@ -310,8 +310,8 @@ const Account = () => {
       <VStack width="100%" alignItems="center" position="relative">
         <Box
           borderRadius="full"
-          transition="filter 0.2s ease"
-          _hover={{ filter: "brightness(0.5)" }}
+          // transition="0.2s ease"
+          bgColor="gray.200"
           overflow="hidden"
         >
           <Image
@@ -319,6 +319,8 @@ const Account = () => {
             height="100px"
             src={profile_image.src}
             cursor="pointer"
+            _hover={{ opacity: 0.6 }}
+            transition="0.2s ease"
           />
         </Box>
       </VStack>

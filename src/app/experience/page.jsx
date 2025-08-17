@@ -13,16 +13,25 @@ import {
   Link,
   Image,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
-import { SectionTitle, AccountSectionTitleLink } from "../common";
+import {
+  SectionTitle,
+  AccountSectionTitleLink,
+  Back,
+  UpdateButton,
+  AccountSaveCancelBtns,
+} from "../common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoPerson } from "react-icons/io5";
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { useState } from "react";
 
 const fakeWorkExpData = [
   {
@@ -39,18 +48,18 @@ const fakeWorkExpData = [
   },
 ];
 
-const ExpItem = () => {
+const ExpItem = ({ disabled }) => {
   return (
     <VStack gapY={4} width="100%">
-      <Field.Root width="100%">
+      <Field.Root disabled={disabled} width="100%">
         <Field.Label>Job title</Field.Label>
         <Input bgColor="gray.900" placeholder="Enter your email" />
       </Field.Root>
-      <Field.Root>
+      <Field.Root disabled={disabled}>
         <Field.Label>Company </Field.Label>
         <Input bgColor="gray.900" placeholder="Enter your company" />
       </Field.Root>
-      <Field.Root>
+      <Field.Root disabled={disabled}>
         <Field.Label>Start date </Field.Label>
         <HStack>
           <Input bgColor="gray.900" placeholder="mm" />
@@ -58,20 +67,20 @@ const ExpItem = () => {
         </HStack>
       </Field.Root>
       <VStack alignItems="start" width="100%">
-        <Field.Root>
+        <Field.Root disabled={disabled}>
           <Field.Label>End date </Field.Label>
           <HStack>
             <Input bgColor="gray.900" placeholder="mm" />
             <Input bgColor="gray.900" placeholder="yyyy" />
           </HStack>
         </Field.Root>
-        <Checkbox.Root alignSelf="start">
+        <Checkbox.Root disabled={disabled} alignSelf="start">
           <Checkbox.HiddenInput />
           <Checkbox.Control />
           <Checkbox.Label>I work here now</Checkbox.Label>
         </Checkbox.Root>
       </VStack>
-      <Field.Root>
+      <Field.Root disabled={disabled}>
         <Field.Label>Description </Field.Label>
 
         <Textarea bgColor="gray.900" placeholder="Comment..." resize="none" />
@@ -80,16 +89,7 @@ const ExpItem = () => {
   );
 };
 
-const UpdateButton = () => {
-  return (
-    <Link fontSize="xs">
-      <RiEditFill />
-      Update
-    </Link>
-  );
-};
-
-const ExperienceData = ({ data = [] }) => {
+const ExperienceData = ({ data = [], disabled }) => {
   if (data.length === 0) return null;
 
   return (
@@ -101,6 +101,7 @@ const ExperienceData = ({ data = [] }) => {
     >
       {data.map((e, i) => (
         <ExpItem
+          disabled={disabled}
           key={e.id ?? i}
           title={e.title}
           company={e.company}
@@ -113,21 +114,48 @@ const ExperienceData = ({ data = [] }) => {
 };
 
 const Experience = () => {
+  const [staticState, setStaticState] = useState(true);
+
+  const toggleShowSaveButtons = () => {
+    setStaticState((prev) => !prev);
+  };
+
+  const handleSave = () => {
+    toggleShowSaveButtons();
+  };
+
+  const handleCancel = () => {
+    toggleShowSaveButtons();
+  };
+
   return (
     <VStack
-      paddingBottom="80px"
+      paddingBottom={staticState ? "80px" : "140px"}
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
       paddingX={{ base: "20px", sm: "none" }}
       gapY={14}
     >
-      <VStack alignItems="start" width="100%" maxWidth="600px" gapY={4}>
+      <VStack
+        position="relative"
+        alignItems="start"
+        width="100%"
+        maxWidth="600px"
+        gapY={10}
+      >
+        <Back />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Experience" />
-          <UpdateButton />
+          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
         </VStack>
-        <ExperienceData data={fakeWorkExpData} />
+        <ExperienceData disabled={staticState} data={fakeWorkExpData} />
+        {!staticState && (
+          <AccountSaveCancelBtns
+            handleCancel={handleCancel}
+            handleSave={handleSave}
+          />
+        )}
       </VStack>
     </VStack>
   );
