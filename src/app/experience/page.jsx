@@ -39,12 +39,16 @@ const fakeWorkExpData = [
     end: "now",
     company: "Uber",
     title: "Software engineer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
   },
   {
     start: "June 2023",
     end: "May 2024",
     company: "Sword Health",
     title: "Software engineer",
+    description:
+      "Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis.",
   },
 ];
 
@@ -107,6 +111,7 @@ const ExperienceData = ({ data = [], disabled }) => {
           company={e.company}
           start={e.start}
           end={e.end}
+          description={e.description}
         />
       ))}
     </VStack>

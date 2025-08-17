@@ -10,6 +10,8 @@ import {
   LinkBox,
   Icon,
   StackSeparator,
+  Textarea,
+  Flex,
 } from "@chakra-ui/react";
 import profile_image from "./profile.png";
 import google_image from "./google.png";
@@ -36,12 +38,16 @@ const fakeWorkExpData = [
     end: "now",
     company: "Uber",
     title: "Software engineer",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
   },
   {
     start: "June 2023",
     end: "May 2024",
     company: "Sword Health",
     title: "Software engineer",
+    description:
+      "Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
   },
 ];
 
@@ -73,6 +79,7 @@ const WorkExperience = ({ data }) => {
               company={e.company}
               start={e.start}
               end={e.end}
+              description={e.description}
             />
           </Box>
         );
@@ -81,21 +88,48 @@ const WorkExperience = ({ data }) => {
   );
 };
 
-const WorkExpItem = ({ start, end, title, company }) => {
+const WorkExpItem = ({ start, end, title, company, description }) => {
   return (
-    <HStack bgColor="gray.900" p={"20px"} fontSize="sm">
-      <VStack alignItems="start" gapY={1}>
+    <HStack bgColor="gray.900" p="20px" fontSize="sm" w="100%">
+      <VStack alignItems="start" spacing={1} w="100%">
         <HStack>
           <Text>{company}</Text>
-          {/* <Text>|</Text> */}
-          <Text fontWeight="200">{title} </Text>
+          <Text fontWeight="200">{title}</Text>
         </HStack>
+
         <HStack fontWeight="200">
           <Text>{start}</Text>
-          <RxArrowRight size={fontSm} />
-          {/* <Text fontSize="xs"> |</Text> */}
+          <RxArrowRight size="12px" />
           <Text>{end}</Text>
         </HStack>
+
+        {/* One-line clamp + fade + ellipsis */}
+        <Box position="relative" w="100%">
+          <Text lineClamp={1}>{description}</Text>
+
+          {/* Fade overlay (matches bgColor) */}
+          <Flex
+            position="absolute"
+            right="0"
+            top="0"
+            bottom="0"
+            w="100px"
+            // height="30px"
+            pointerEvents="none"
+            // border="solid 1px red"
+            bgGradient="to-l"
+            gradientFrom="gray.900"
+            gradientVia="gray.900"
+            gradientTo="transparent"
+            justifyContent="end"
+            // bgImage="linear-gradient(black 90%, white 10%)"
+            // bgGradient="linear(to-r, red.900, transparent)"
+          >
+            <Button zIndex={10} variant="subtle" size="xs">
+              More
+            </Button>
+          </Flex>
+        </Box>
       </VStack>
     </HStack>
   );
