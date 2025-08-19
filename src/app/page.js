@@ -95,7 +95,13 @@ const WorkExpItem = ({ start, end, title, company, description }) => {
     setHidden((prev) => !prev);
   };
   return (
-    <HStack bgColor="gray.900" p="20px" fontSize="sm" w="100%">
+    <HStack
+      borderRadius="sm"
+      bgColor="gray.900"
+      p="20px"
+      fontSize="sm"
+      w="100%"
+    >
       <VStack alignItems="start" spacing={1} w="100%">
         <HStack>
           <Text>{company}</Text>
@@ -114,7 +120,6 @@ const WorkExpItem = ({ start, end, title, company, description }) => {
             {description}
           </Text>
 
-          {/* Fade overlay (matches bgColor) */}
           <Box
             position="absolute"
             opacity={hidden ? 1 : 0}
@@ -123,16 +128,10 @@ const WorkExpItem = ({ start, end, title, company, description }) => {
             top="0"
             bottom="0"
             w="100%"
-            // height="30px"
             pointerEvents="none"
-            // border="solid 1px red"
             bgGradient="to-l"
             gradientFrom="gray.900"
-            // gradientVia="gray.900"
             gradientTo="transparent"
-            // justifyContent="end"
-            // bgImage="linear-gradient(black 90%, white 10%)"
-            // bgGradient="linear(to-r, red.900, transparent)"
           ></Box>
         </Box>
         <Link
@@ -171,7 +170,7 @@ const Education = () => {
 
 const EducationItem = ({ start, end, name, degree }) => {
   return (
-    <HStack bgColor="gray.900" p={"20px"} fontSize="sm">
+    <HStack borderRadius="sm" bgColor="gray.900" p={"20px"} fontSize="sm">
       <VStack alignItems="start" gapY={1}>
         <HStack>
           <Text>{name}</Text>
@@ -205,7 +204,13 @@ const ProfileLinks = ({ data }) => {
 
 const PLink = ({ url }) => {
   return (
-    <HStack bgColor="gray.900" p={"20px"} fontSize={"sm"} alignItems="center">
+    <HStack
+      borderRadius="sm"
+      bgColor="gray.900"
+      p={"20px"}
+      fontSize={"sm"}
+      alignItems="center"
+    >
       {/* <RxGithubLogo /> */}
       <Link>{url}</Link>
     </HStack>
