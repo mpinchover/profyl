@@ -44,14 +44,17 @@ export const Back = ({ handleClick, route }) => {
   );
 };
 
-export const UpdateButton = ({ handleClick }) => {
-  const [show, setShow] = useState(true);
+export const UpdateButton = ({ handleClick, staticState }) => {
   return (
     <Link
-      // opacity={show ? 1 : 0}
-      // animation=".2s ease"
       onClick={handleClick}
       fontSize="xs"
+      display="inline-flex"
+      alignItems="center"
+      gap="1"
+      opacity={staticState ? 1 : 0}
+      pointerEvents={staticState ? "auto" : "none"}
+      transition="opacity 0.2s ease-in-out"
     >
       <RiEditFill />
       Update
@@ -67,8 +70,8 @@ export const AccountSaveCancelBtns = ({ handleSave, handleCancel }) => {
       alignItems="start"
       bottom="20px"
       position="fixed"
-      // left="0px"
-      // right="0px"
+      left={{ base: "0px", sm: "auto" }}
+      right={{ base: "0px", sm: "auto" }}
     >
       <Button onClick={handleSave} width={{ base: "100%", sm: "140px" }}>
         Save

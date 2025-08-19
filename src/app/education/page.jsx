@@ -133,7 +133,10 @@ const Education = () => {
         <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Education" />
-          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
+          <UpdateButton
+            staticState={staticState}
+            handleClick={toggleShowSaveButtons}
+          />
         </VStack>
         <EducationData disabled={staticState} data={fakeEduData} />
         {!staticState && (

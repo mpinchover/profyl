@@ -152,7 +152,10 @@ const Experience = () => {
         <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Experience" />
-          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
+          <UpdateButton
+            staticState={staticState}
+            handleClick={toggleShowSaveButtons}
+          />
         </VStack>
         <ExperienceData disabled={staticState} data={fakeWorkExpData} />
         {!staticState && (

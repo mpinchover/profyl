@@ -100,7 +100,10 @@ const ProfileLinks = () => {
         <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Links" />
-          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
+          <UpdateButton
+            staticState={staticState}
+            handleClick={toggleShowSaveButtons}
+          />
         </VStack>
         <ProfileLinkData disabled={staticState} data={fakeProfileLinksData} />
         {!staticState && (

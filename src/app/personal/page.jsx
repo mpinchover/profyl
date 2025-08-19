@@ -84,7 +84,11 @@ const Personal = () => {
         <Back route="settings" />
         <VStack width="100" alignItems="start" gapY={0}>
           <SectionTitle title="Personal" />
-          {staticState && <UpdateButton handleClick={toggleShowSaveButtons} />}
+
+          <UpdateButton
+            staticState={staticState}
+            handleClick={toggleShowSaveButtons}
+          />
         </VStack>
         <PersonalData disabled={staticState} />
         {!staticState && (
