@@ -26,7 +26,7 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
 import { Toaster, toaster } from "@/components/ui/toaster";
 
-import { SectionTitle } from "./common";
+import { SectionTitle, WorkExperience } from "./common";
 import { useState } from "react";
 
 const fontSm = "10px";
@@ -69,85 +69,6 @@ const fakeLinks = [
     url: "medium.com/mpinch",
   },
 ];
-const WorkExperience = ({ data }) => {
-  return (
-    <VStack width="100%">
-      {data.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <WorkExpItem
-              title={e.title}
-              company={e.company}
-              start={e.start}
-              end={e.end}
-              description={e.description}
-            />
-          </Box>
-        );
-      })}
-    </VStack>
-  );
-};
-
-const WorkExpItem = ({ start, end, title, company, description }) => {
-  const [hidden, setHidden] = useState(true);
-  const handleSeeMore = () => {
-    setHidden((prev) => !prev);
-  };
-  return (
-    <HStack
-      borderRadius="sm"
-      bgColor="gray.900"
-      p="20px"
-      fontSize="sm"
-      w="100%"
-    >
-      <VStack alignItems="start" spacing={1} w="100%">
-        <HStack>
-          <Text>{company}</Text>
-          <Text fontWeight="200">{title}</Text>
-        </HStack>
-
-        <HStack fontWeight="200">
-          <Text>{start}</Text>
-          <RxArrowRight size="12px" />
-          <Text>{end}</Text>
-        </HStack>
-
-        {/* One-line clamp + fade + ellipsis */}
-        <Box position="relative" w="100%">
-          <Text transition="0.2s ease" lineClamp={hidden ? 1 : "none"}>
-            {description}
-          </Text>
-
-          <Box
-            position="absolute"
-            opacity={hidden ? 1 : 0}
-            transition="0.2s ease"
-            right="0"
-            top="0"
-            bottom="0"
-            w="100%"
-            pointerEvents="none"
-            bgGradient="to-l"
-            gradientFrom="gray.900"
-            gradientTo="transparent"
-          ></Box>
-        </Box>
-        <Link
-          onClick={handleSeeMore}
-          transition="0.2s ease"
-          _hover={{ color: "white" }}
-          zIndex={10}
-          variant="subtle"
-          fontSize="xs"
-        >
-          {hidden ? "See more" : "See less"}
-        </Link>
-      </VStack>
-    </HStack>
-  );
-};
 
 const Education = () => {
   return (

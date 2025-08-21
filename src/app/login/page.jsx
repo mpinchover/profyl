@@ -11,20 +11,15 @@ const LoginOAuth = ({ title, icon }) => {
       h="48px" // consistent height
       // variant="outline"
       p={0}
-      justifyContent="flex-start"
+      justifyContent="center"
+      position={"relative"}
     >
-      <Grid
-        w="100%"
-        templateColumns="40px 1fr" // fixed icon column + flexible text column
-        alignItems="center"
-        columnGap={3}
-        px={4}
-      >
-        <Center boxSize="32px">{icon}</Center>
-        <Text textAlign="center" w="100%">
-          Login with {title}
-        </Text>
-      </Grid>
+      <Center position="absolute" boxSize="32px" left="10px">
+        {icon}
+      </Center>
+      <Text textAlign="center" w="100%">
+        Login with {title}
+      </Text>
     </Button>
   );
 };

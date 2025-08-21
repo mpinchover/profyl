@@ -15,7 +15,7 @@ import {
   Button,
   ButtonGroup,
 } from "@chakra-ui/react";
-import profile_image from "../profile.png";
+
 import { RiEditFill } from "react-icons/ri";
 import {
   SectionTitle,
@@ -25,7 +25,7 @@ import {
   AccountSaveCancelBtns,
   AddSectionItemBtn,
   WorkExperience,
-} from "../common";
+} from "../../common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
@@ -34,25 +34,16 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoPerson } from "react-icons/io5";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const fakeWorkExpData = [
-  {
-    start: "July 2024",
-    end: "now",
-    company: "Uber",
-    title: "Software engineer",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
-  },
-  {
-    start: "June 2023",
-    end: "May 2024",
-    company: "Sword Health",
-    title: "Software engineer",
-    description:
-      "Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis.",
-  },
-];
+const fakeWorkExpData = {
+  start: "July 2024",
+  end: "now",
+  company: "Uber",
+  title: "Software engineer",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
+};
 
 const ExpItem = ({ disabled }) => {
   return (
@@ -105,36 +96,25 @@ const ExperienceData = ({ data = [], disabled }) => {
       separator={<StackSeparator borderColor="gray.600" />}
       alignItems="start"
     >
-      {data.map((e, i) => (
-        <ExpItem
-          disabled={disabled}
-          key={e.id ?? i}
-          title={e.title}
-          company={e.company}
-          start={e.start}
-          end={e.end}
-          description={e.description}
-        />
-      ))}
+      <ExpItem
+        disabled={disabled}
+        title={fakeWorkExpData.title}
+        company={fakeWorkExpData.company}
+        start={fakeWorkExpData.start}
+        end={fakeWorkExpData.end}
+        description={fakeWorkExpData.description}
+      />
     </VStack>
   );
 };
 
-const Experience = () => {
+const UpdateExperience = () => {
   const [staticState, setStaticState] = useState(true);
-
-  const toggleShowSaveButtons = () => {
-    setStaticState((prev) => !prev);
-  };
-
-  const handleSave = () => {
-    toggleShowSaveButtons();
-  };
+  const router = useRouter();
 
   const handleCancel = () => {
-    toggleShowSaveButtons();
+    router.push("/experience");
   };
-
   return (
     <VStack
       paddingBottom={staticState ? "80px" : "140px"}
@@ -151,28 +131,13 @@ const Experience = () => {
         maxWidth="600px"
         gapY={8}
       >
-        <Back route="settings" />
+        {/* <Back route="experience" /> */}
 
-        <SectionTitle title="Experience" />
-        {/* <UpdateButton
-            staticState={staticState}
-            handleClick={toggleShowSaveButtons}
-          /> */}
-
-        <AddSectionItemBtn
-          staticState={staticState}
-          sectionToAdd="experience"
-        />
-        <WorkExperience isEditMode={true} data={fakeWorkExpData} />
-        {/* <ExperienceData disabled={staticState} data={fakeWorkExpData} /> */}
-        {/* <AccountSaveCancelBtns
-          staticState={staticState}
-          handleCancel={handleCancel}
-          handleSave={handleSave}
-        /> */}
+        <ExperienceData data={fakeWorkExpData} />
+        <AccountSaveCancelBtns handleCancel={handleCancel} />
       </VStack>
     </VStack>
   );
 };
 
-export default Experience;
+export default UpdateExperience;
