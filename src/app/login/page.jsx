@@ -28,9 +28,14 @@ const LoginOAuth = ({ title, icon, handleLogin }) => {
 };
 
 const Login = () => {
-  const { user, signInWithGoogle, signInWithGithub } = useAuth();
+  const { user, signInWithGoogle, signInWithGithub, logout } = useAuth();
   const router = useRouter();
-  
+
+  const handleLogin = (signinMethod) => {
+    signinMethod()
+      .then(() => router.replace("/"))
+      .catch((e) => console.log(e));
+  };
 
   return (
     <VStack
@@ -53,13 +58,13 @@ const Login = () => {
           {" "}
           {/* equal vertical spacing between buttons */}
           <LoginOAuth
-            handleLogin={signInWithGoogle}
+            handleLogin={() => handleLogin(signInWithGoogle)}
             icon={<GrGoogle />}
             title="Google"
           />
           {/* <LoginOAuth icon={<FaApple />} title="Apple" /> */}
           <LoginOAuth
-            handleLogin={signInWithGithub}
+            handleLogin={() => handleLogin(signInWithGithub)}
             icon={<FaGithub />}
             title="Github"
           />
