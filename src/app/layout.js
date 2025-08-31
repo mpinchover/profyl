@@ -3,6 +3,7 @@ import { Provider } from "@/components/ui/provider";
 import Navbar from "@/components/navbar";
 import { Box } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/config/auth-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,11 @@ export default function RootLayout(props) {
     <html suppressHydrationWarning className={`${montserrat.variable}`}>
       <body>
         <Provider>
-          <Toaster />
-          <Navbar />
-          {children}
+          <AuthProvider>
+            <Toaster />
+            <Navbar />
+            {children}
+          </AuthProvider>
         </Provider>
       </body>
     </html>

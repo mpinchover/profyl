@@ -1,149 +1,20 @@
 "use client";
-import {
-  Box,
-  Text,
-  Image,
-  VStack,
-  HStack,
-  Link,
-  Button,
-  LinkBox,
-  Icon,
-  StackSeparator,
-  Textarea,
-  Flex,
-} from "@chakra-ui/react";
-import profile_image from "./profile.png";
-import google_image from "./google.png";
-import { FiPaperclip } from "react-icons/fi";
-import { RxArrowRight } from "react-icons/rx";
-import { Separator } from "@chakra-ui/react";
-import { RxGithubLogo } from "react-icons/rx";
-import { RiDownload2Fill } from "react-icons/ri";
-import { IoMdBriefcase } from "react-icons/io";
-import { IoSchoolSharp } from "react-icons/io5";
-import { FaExternalLinkSquareAlt } from "react-icons/fa";
-import { IoMdImage } from "react-icons/io";
-import { Toaster, toaster } from "@/components/ui/toaster";
 
-import {
-  SectionTitle,
-  WorkExperience,
-  Education,
-  ProfileLinks,
-} from "./common";
-import { useState } from "react";
-
-
-
-const fakeWorkExpData = [
-  {
-    start: "July 2024",
-    end: "now",
-    company: "Uber",
-    title: "Software engineer",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
-  },
-  {
-    start: "June 2023",
-    end: "May 2024",
-    company: "Sword Health",
-    title: "Software engineer",
-    description:
-      "Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
-  },
-];
-
-const fakeEduData = [
-  {
-    start: "September 2016",
-    end: "May 2020",
-    name: "Columbia",
-    degree: "B.A",
-  },
-];
-
-const fakeLinks = [
-  {
-    url: "github.com/mpinchover",
-  },
-  {
-    url: "medium.com/mpinch",
-  },
-];
-
-const ArtworkItem = ({ src }) => {};
-
-const Artwork = ({ data }) => {
-  return (
-    <>
-      {data.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <ArtworkItem src={e.src} />
-          </Box>
-        );
-      })}
-    </>
-  );
-};
+import HomeLoggedOut from "../components/home-logged-out";
+import HomeLoggedIn from "../components/home-logged-in";
+import { useAuth } from "@/config/auth-context";
+import { Center, Spinner } from "@chakra-ui/react";
 
 export default function Home() {
-  const handleCopyLink = () => {
-    toaster.create({
-      title: "Copied link",
-      // description: "Toast Description",
-    });
-  };
+  const { user, loading } = useAuth();
 
-  return (
-    <VStack
-      paddingBottom="100px"
-      paddingTop="80px"
-      minHeight="100dvh"
-      bgColor="gray.800"
-      paddingX={{ base: "20px", sm: "none" }}
-    >
-      <VStack alignItems="start" width="100%" maxWidth="600px">
-        <VStack gapY={0} alignItems="start" width="100%">
-          <VStack width="100%" alignItems="center">
-            <Image
-              width="100px"
-              height="100px"
-              borderRadius="full"
-              src={profile_image.src}
-            />
+  if (loading) {
+    return (
+      <Center minH="100vh">
+        <Spinner size="lg" thickness="3px" speed="0.65s" aria-label="Loading" />
+      </Center>
+    );
+  }
 
-            <Text fontSize="lg" mt="5px">
-              Igor Ezmayavitch
-            </Text>
-            {/* <Text fontSize="xs">@i_ezmaya</Text> */}
-            <HStack>
-              <Button
-                onClick={handleCopyLink}
-                borderRadius="full"
-                p={1}
-                bgColor="gray.700"
-              >
-                <Icon color="gray.100" as={FiPaperclip} boxSize={4} />
-              </Button>
-              <Button borderRadius="full" p={1} bgColor="gray.700">
-                <Icon color="gray.100" as={RiDownload2Fill} boxSize={4} />
-              </Button>
-            </HStack>
-          </VStack>
-        </VStack>
-
-        <VStack mt="50px" gap={10} alignContent="start" width="100%">
-          <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
-          <WorkExperience data={fakeWorkExpData} />
-          <SectionTitle title="Education" icon={<IoSchoolSharp />} />
-          <Education data={fakeEduData} />
-          <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
-          <ProfileLinks data={fakeLinks} />
-        </VStack>
-      </VStack>
-    </VStack>
-  );
+  return user ? <HomeLoggedIn /> : <HomeLoggedOut />;
 }

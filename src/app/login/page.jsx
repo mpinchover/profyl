@@ -1,9 +1,11 @@
 "use client";
 import { VStack, Button, Grid, Center, Text, Flex } from "@chakra-ui/react";
+import { useAuth } from "@/config/auth-context";
 import { GrGoogle } from "react-icons/gr";
 import { FaApple, FaGithub, FaDiscord } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
-const LoginOAuth = ({ title, icon }) => {
+const LoginOAuth = ({ title, icon, handleLogin }) => {
   return (
     <Button
       w="100%"
@@ -13,6 +15,7 @@ const LoginOAuth = ({ title, icon }) => {
       p={0}
       justifyContent="center"
       position={"relative"}
+      onClick={handleLogin}
     >
       <Center position="absolute" boxSize="32px" left="10px">
         {icon}
@@ -25,6 +28,10 @@ const LoginOAuth = ({ title, icon }) => {
 };
 
 const Login = () => {
+  const { user, signInWithGoogle, signInWithGithub } = useAuth();
+  const router = useRouter();
+  
+
   return (
     <VStack
       paddingBottom="100px"
@@ -45,9 +52,17 @@ const Login = () => {
         <VStack w="100%" spacing={3}>
           {" "}
           {/* equal vertical spacing between buttons */}
-          <LoginOAuth icon={<GrGoogle />} title="Google" />
+          <LoginOAuth
+            handleLogin={signInWithGoogle}
+            icon={<GrGoogle />}
+            title="Google"
+          />
           {/* <LoginOAuth icon={<FaApple />} title="Apple" /> */}
-          <LoginOAuth icon={<FaGithub />} title="Github" />
+          <LoginOAuth
+            handleLogin={signInWithGithub}
+            icon={<FaGithub />}
+            title="Github"
+          />
           {/* <LoginOAuth icon={<FaDiscord />} title="Discord" /> */}
         </VStack>
       </Flex>

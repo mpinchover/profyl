@@ -23,7 +23,7 @@ import {
   Back,
   UpdateButton,
   AccountSaveCancelBtns,
-} from "../common";
+} from "../../components/common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";

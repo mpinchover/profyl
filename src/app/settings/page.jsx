@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
-import { SectionTitle, AccountSectionTitleLink } from "../common";
+import { SectionTitle, AccountSectionTitleLink } from "../../components/common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
