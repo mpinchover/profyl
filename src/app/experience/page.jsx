@@ -54,72 +54,6 @@ const fakeWorkExpData = [
   },
 ];
 
-const ExpItem = ({ disabled }) => {
-  return (
-    <VStack gapY={4} width="100%">
-      <Field.Root disabled={disabled} width="100%">
-        <Field.Label>Job title</Field.Label>
-        <Input bgColor="gray.900" placeholder="Enter your email" />
-      </Field.Root>
-      <Field.Root disabled={disabled}>
-        <Field.Label>Company </Field.Label>
-        <Input bgColor="gray.900" placeholder="Enter your company" />
-      </Field.Root>
-      <Field.Root disabled={disabled}>
-        <Field.Label>Start date </Field.Label>
-        <HStack>
-          <Input bgColor="gray.900" placeholder="mm" />
-          <Input bgColor="gray.900" placeholder="yyyy" />
-        </HStack>
-      </Field.Root>
-      <VStack alignItems="start" width="100%">
-        <Field.Root disabled={disabled}>
-          <Field.Label>End date </Field.Label>
-          <HStack>
-            <Input bgColor="gray.900" placeholder="mm" />
-            <Input bgColor="gray.900" placeholder="yyyy" />
-          </HStack>
-        </Field.Root>
-        <Checkbox.Root disabled={disabled} alignSelf="start">
-          <Checkbox.HiddenInput />
-          <Checkbox.Control />
-          <Checkbox.Label>I work here now</Checkbox.Label>
-        </Checkbox.Root>
-      </VStack>
-      <Field.Root disabled={disabled}>
-        <Field.Label>Description </Field.Label>
-
-        <Textarea bgColor="gray.900" placeholder="Comment..." resize="none" />
-      </Field.Root>
-    </VStack>
-  );
-};
-
-const ExperienceData = ({ data = [], disabled }) => {
-  if (data.length === 0) return null;
-
-  return (
-    <VStack
-      width="100%"
-      gapY={4}
-      separator={<StackSeparator borderColor="gray.600" />}
-      alignItems="start"
-    >
-      {data.map((e, i) => (
-        <ExpItem
-          disabled={disabled}
-          key={e.id ?? i}
-          title={e.title}
-          company={e.company}
-          start={e.start}
-          end={e.end}
-          description={e.description}
-        />
-      ))}
-    </VStack>
-  );
-};
-
 const Experience = () => {
   const [staticState, setStaticState] = useState(true);
 
@@ -162,14 +96,9 @@ const Experience = () => {
         <AddSectionItemBtn
           staticState={staticState}
           sectionToAdd="experience"
+          route="/new/experience"
         />
         <WorkExperience isEditMode={true} data={fakeWorkExpData} />
-        {/* <ExperienceData disabled={staticState} data={fakeWorkExpData} /> */}
-        {/* <AccountSaveCancelBtns
-          staticState={staticState}
-          handleCancel={handleCancel}
-          handleSave={handleSave}
-        /> */}
       </VStack>
     </VStack>
   );

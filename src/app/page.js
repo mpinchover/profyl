@@ -26,12 +26,15 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
 import { Toaster, toaster } from "@/components/ui/toaster";
 
-import { SectionTitle, WorkExperience } from "./common";
+import {
+  SectionTitle,
+  WorkExperience,
+  Education,
+  ProfileLinks,
+} from "./common";
 import { useState } from "react";
 
-const fontSm = "10px";
-const dividerSm = "8px";
-const sectionDividerMd = "20px";
+
 
 const fakeWorkExpData = [
   {
@@ -69,74 +72,6 @@ const fakeLinks = [
     url: "medium.com/mpinch",
   },
 ];
-
-const Education = () => {
-  return (
-    <VStack width="100%">
-      {fakeEduData.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <EducationItem
-              name={e.name}
-              start={e.start}
-              end={e.end}
-              degree={e.degree}
-            />
-          </Box>
-        );
-      })}
-    </VStack>
-  );
-};
-
-const EducationItem = ({ start, end, name, degree }) => {
-  return (
-    <HStack borderRadius="sm" bgColor="gray.900" p={"20px"} fontSize="sm">
-      <VStack alignItems="start" gapY={1}>
-        <HStack>
-          <Text>{name}</Text>
-          <Text fontWeight="200">{degree}</Text>
-          {/* <Text>|</Text> */}
-        </HStack>
-        <HStack fontWeight="200">
-          <Text>{start}</Text>
-          <RxArrowRight size={fontSm} />
-          {/* <Text fontSize="xs"> |</Text> */}
-          <Text>{end}</Text>
-        </HStack>
-      </VStack>
-    </HStack>
-  );
-};
-
-const ProfileLinks = ({ data }) => {
-  return (
-    <VStack width="100%">
-      {data.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <PLink url={e.url} />
-          </Box>
-        );
-      })}
-    </VStack>
-  );
-};
-
-const PLink = ({ url }) => {
-  return (
-    <HStack
-      borderRadius="sm"
-      bgColor="gray.900"
-      p={"20px"}
-      fontSize={"sm"}
-      alignItems="center"
-    >
-      {/* <RxGithubLogo /> */}
-      <Link>{url}</Link>
-    </HStack>
-  );
-};
 
 const ArtworkItem = ({ src }) => {};
 
@@ -207,8 +142,6 @@ export default function Home() {
           <Education data={fakeEduData} />
           <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
           <ProfileLinks data={fakeLinks} />
-          {/* <SectionTitle title="Artwork" icon={<IoMdImage />} /> */}
-          {/* <Artwork data={[{}, {}]} /> */}
         </VStack>
       </VStack>
     </VStack>

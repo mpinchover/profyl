@@ -46,9 +46,9 @@ const Login = () => {
           {" "}
           {/* equal vertical spacing between buttons */}
           <LoginOAuth icon={<GrGoogle />} title="Google" />
-          <LoginOAuth icon={<FaApple />} title="Apple" />
+          {/* <LoginOAuth icon={<FaApple />} title="Apple" /> */}
           <LoginOAuth icon={<FaGithub />} title="Github" />
-          <LoginOAuth icon={<FaDiscord />} title="Discord" />
+          {/* <LoginOAuth icon={<FaDiscord />} title="Discord" /> */}
         </VStack>
       </Flex>
     </VStack>

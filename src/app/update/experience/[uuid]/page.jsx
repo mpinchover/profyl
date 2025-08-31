@@ -13,8 +13,13 @@ import {
   Link,
   Image,
   Button,
+  CloseButton,
+  Dialog,
+  Portal,
   ButtonGroup,
+  Text,
 } from "@chakra-ui/react";
+import { use } from "react";
 
 import { RiEditFill } from "react-icons/ri";
 import {
@@ -25,7 +30,8 @@ import {
   AccountSaveCancelBtns,
   AddSectionItemBtn,
   WorkExperience,
-} from "../../common";
+  DeleteProfileItemBtn,
+} from "../../../common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
@@ -86,16 +92,11 @@ const ExpItem = ({ disabled }) => {
   );
 };
 
-const ExperienceData = ({ data = [], disabled }) => {
+const ExperienceData = ({ data = [], disabled, handleDelete }) => {
   if (data.length === 0) return null;
 
   return (
-    <VStack
-      width="100%"
-      gapY={4}
-      separator={<StackSeparator borderColor="gray.600" />}
-      alignItems="start"
-    >
+    <VStack width="100%" gapY={4} alignItems="start">
       <ExpItem
         disabled={disabled}
         title={fakeWorkExpData.title}
@@ -104,17 +105,28 @@ const ExperienceData = ({ data = [], disabled }) => {
         end={fakeWorkExpData.end}
         description={fakeWorkExpData.description}
       />
+      <DeleteProfileItemBtn
+        handleDelete={handleDelete}
+        profileSection={"experence"}
+      />
     </VStack>
   );
 };
 
-const UpdateExperience = () => {
+const UpdateExperience = ({ params }) => {
+  const { uuid } = use(params);
+
+  const itemUUID = uuid;
   const [staticState, setStaticState] = useState(true);
+
   const router = useRouter();
 
   const handleCancel = () => {
     router.push("/experience");
   };
+
+  const handleDelete = () => {};
+
   return (
     <VStack
       paddingBottom={staticState ? "80px" : "140px"}
@@ -133,7 +145,7 @@ const UpdateExperience = () => {
       >
         {/* <Back route="experience" /> */}
 
-        <ExperienceData data={fakeWorkExpData} />
+        <ExperienceData handleDelete={handleDelete} data={fakeWorkExpData} />
         <AccountSaveCancelBtns handleCancel={handleCancel} />
       </VStack>
     </VStack>
