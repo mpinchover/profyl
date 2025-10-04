@@ -7,6 +7,7 @@ import {
   Button,
   Box,
   Heading,
+  Input,
 } from "@chakra-ui/react";
 import image1 from "./image1.png";
 import image2 from "./image2.png";
@@ -35,29 +36,21 @@ const HomeLoggedOut = () => {
       bgColor="gray.800"
       paddingX={{ base: "20px", sm: "none" }}
       gapY={14}
+      justifyContent="center"
+      alignItems="center"
     >
       <VStack
-        maxWidth="600px"
+        maxWidth="400px"
         width="100%"
-        alignItems="start"
+        alignItems="center"
         position="relative"
+        gapY={2}
       >
-        <Heading fontWeight="400" size="xl">
-          Does this give you{" "}
-          <Text as="span" fontWeight="extrabold">
-            diarrhea
-          </Text>
-          ?
+        <Heading fontWeight="400" size="lg">
+          Join waitlist.
         </Heading>
-        {/* <Text>A better way to connect.</Text>
-        <Link>Get started here.</Link> */}
-        <BGImage src={image6.src} />
-        <BGImage src={image1.src} />
-        {/* <BGImage src={image2.src} /> */}
-        <BGImage src={image3.src} />
-        <Link onClick={() => router.push("/login")}>
-          Log in and share your profile without needing a toilet.
-        </Link>
+        <Input bgColor="gray.900" placeholder="Enter email" />
+        <Button width="100%">Submit</Button>
       </VStack>
     </VStack>
   );

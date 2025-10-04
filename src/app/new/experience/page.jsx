@@ -25,7 +25,7 @@ import {
   AccountSaveCancelBtns,
   AddSectionItemBtn,
   WorkExperience,
-} from "../../../components/common";
+} from "../../../components/common/common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";

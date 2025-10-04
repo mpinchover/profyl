@@ -25,6 +25,7 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useAuth } from "@/config/auth-context";
+import { useParams } from "next/navigation";
 
 import {
   SectionTitle,
@@ -32,7 +33,7 @@ import {
   Education,
   ProfileLinks,
 } from "@/components/common/common";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const fakeWorkExpData = [
   {
@@ -48,8 +49,7 @@ const fakeWorkExpData = [
     end: "May 2024",
     company: "Sword Health",
     title: "Software engineer",
-    description:
-      "Quisque a pulvinar mauris, ac auctor augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam aliquet pulvinar odio eu faucibus. In fringilla, tellus ac dignissim congue, sem erat tristique nisl, in bibendum nulla nisi nec elit. Nulla quis commodo urna, vitae vehicula sapien. Aenean velit neque, consectetur eget gravida ullamcorper, volutpat at lectus. Nulla vehicula urna eu lacinia interdum. Praesent vulputate tincidunt justo nec sagittis. Praesent nec augue augue. Vestibulum ullamcorper nec dolor vitae mollis.",
+    description: "Quisque a pulvinar mauris, ac auctor augue",
   },
 ];
 
@@ -73,13 +73,17 @@ const fakeLinks = [
 
 const HomeLoggedIn = () => {
   const { user, logout } = useAuth();
+  const [profile, setProfile] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCopyLink = () => {
-    toaster.create({
-      title: "Copied link",
-      // description: "Toast Description",
-    });
-  };
+  const params = useParams();
+  const userHandle = params.handle;
+
+  const getProfile = () => {};
+
+  useEffect(() => {
+    getProfile();
+  }, [userHandle]);
 
   return (
     <VStack

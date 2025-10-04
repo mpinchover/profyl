@@ -14,7 +14,6 @@ import {
   Image,
   Button,
 } from "@chakra-ui/react";
-import profile_image from "../profile.png";
 import { RiEditFill } from "react-icons/ri";
 import {
   SectionTitle,
@@ -22,7 +21,7 @@ import {
   AccountSaveCancelBtns,
   UpdateButton,
   Back,
-} from "../../components/common";
+} from "../../components/common/common";
 import { IoMdBriefcase } from "react-icons/io";
 import { IoSchoolSharp } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";

@@ -13,11 +13,13 @@ import {
   Dialog,
   Portal,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiArrowLeftSLine, RiEditFill } from "react-icons/ri";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoSchoolSharp } from "react-icons/io5";
 import { RxArrowRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
+import { IoMdBriefcase } from "react-icons/io";
+import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
 const fontSm = "10px";
 const dividerSm = "8px";
@@ -186,7 +188,8 @@ export const WorkExperience = ({ data, isEditMode }) => {
 
   const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
   return (
-    <VStack width="100%" alignItems="start">
+    <VStack width="100%" gapY={4} alignItems="start">
+      <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
       {dataToDisplay.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -223,9 +226,23 @@ const WorkExpItem = ({
 }) => {
   const router = useRouter();
   const [hidden, setHidden] = useState(!isEditMode);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const textRef = useRef(null);
+
   const handleSeeMore = () => {
     setHidden((prev) => !prev);
   };
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (el) {
+      // Chakra Text internally uses display: -webkit-box with lineClamp
+      // So we compare scrollHeight to offsetHeight to detect overflow
+      console.log("d", description);
+      console.log("el scroll height", el.scrollHeight, el.offsetHeight);
+      setIsOverflowing(el.scrollHeight > el.offsetHeight + 1);
+    }
+  }, [description, hidden]);
 
   return (
     <HStack
@@ -261,11 +278,15 @@ const WorkExpItem = ({
 
         {/* One-line clamp + fade + ellipsis */}
         <Box position="relative" w="100%">
-          <Text transition="0.2s ease" lineClamp={hidden ? 1 : "none"}>
+          <Text
+            ref={textRef}
+            transition="0.2s ease"
+            lineClamp={hidden ? 2 : "none"}
+          >
             {description}
           </Text>
 
-          <Box
+          {/* <Box
             position="absolute"
             opacity={hidden ? 1 : 0}
             transition="0.2s ease"
@@ -277,7 +298,7 @@ const WorkExpItem = ({
             bgGradient="to-l"
             gradientFrom="gray.900"
             gradientTo="transparent"
-          ></Box>
+          ></Box> */}
         </Box>
         <Link
           onClick={handleSeeMore}
@@ -287,7 +308,7 @@ const WorkExpItem = ({
           variant="subtle"
           fontSize="xs"
         >
-          {!isEditMode && (hidden ? "See more" : "See less")}
+          {!isEditMode && isOverflowing && (hidden ? "See more" : "See less")}
         </Link>
       </VStack>
     </HStack>
@@ -317,7 +338,8 @@ export const Education = ({ data, isEditMode }) => {
   const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
 
   return (
-    <VStack width="100%" alignItems="start">
+    <VStack width="100%" gapY={4} alignItems="start">
+      <SectionTitle title="Education" icon={<IoSchoolSharp />} />
       {dataToDisplay.map((e, i) => {
         return (
           <Box key={i} width="100%">
@@ -331,7 +353,7 @@ export const Education = ({ data, isEditMode }) => {
           </Box>
         );
       })}
-      {!isEditMode && (
+      {!isEditMode && dataToDisplay.length >= 2 && (
         <SeeAllProfileItemsBtn
           showAll={showAll}
           handleShowAll={handleShowAll}
@@ -434,7 +456,8 @@ const EducationItem = ({
 
 export const ProfileLinks = ({ data }) => {
   return (
-    <VStack width="100%">
+    <VStack gapY={4} width="100%">
+      <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
       {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
