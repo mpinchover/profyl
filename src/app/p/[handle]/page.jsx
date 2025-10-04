@@ -49,7 +49,8 @@ const fakeWorkExpData = [
     end: "May 2024",
     company: "Sword Health",
     title: "Software engineer",
-    description: "Quisque a pulvinar mauris, ac auctor augue",
+    description:
+      "Quisque a pulvinar mauris, ac auctor augue, Quisque a pulvinar mauris, ac auctor augue,  ac auctor augue,  ac auctor augue,  ac auctor augue, augue, aa, a,b,",
   },
 ];
 
