@@ -12,6 +12,10 @@ import {
   CloseButton,
   Dialog,
   Portal,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
+  Stack,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { RiArrowLeftSLine, RiEditFill } from "react-icons/ri";
@@ -179,12 +183,48 @@ export const AccountSaveCancelBtns = ({
   );
 };
 
-export const WorkExperience = ({ data, isEditMode }) => {
+const LoadingSkeleton = () => {
+  return (
+    <VStack width="100%" gapY={4} alignItems="start">
+      <SkeletonText
+        variant="shine"
+        // css={{
+        //   "--start-color": "colors.pink.500",
+        //   "--end-color": "colors.orange.500",
+        // }}
+        css={{
+          // "--start-color": "colors.pink.500",
+          // "--end-color": "red",
+          animationDuration: "3s",
+        }}
+        width="200px"
+        noOfLines={1}
+      />{" "}
+      <SkeletonText
+        variant="shine"
+        css={{
+          // "--start-color": "colors.pink.500",
+          // "--end-color": "red",
+          animationDuration: "3s",
+          // animationDelay: "s",
+        }}
+        width="full"
+        noOfLines={3}
+      />
+    </VStack>
+  );
+};
+
+export const WorkExperience = ({ data, isEditMode, isLoading }) => {
   const [showAll, setShowAll] = useState(false);
 
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
   };
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
   return (
@@ -208,7 +248,7 @@ export const WorkExperience = ({ data, isEditMode }) => {
         <SeeAllProfileItemsBtn
           showAll={showAll}
           handleShowAll={handleShowAll}
-          title="education"
+          title="experience"
           n={7}
         />
       )}
@@ -223,6 +263,7 @@ const WorkExpItem = ({
   company,
   description,
   isEditMode,
+  isLoading,
 }) => {
   const router = useRouter();
   const [hidden, setHidden] = useState(!isEditMode);
@@ -317,23 +358,30 @@ const WorkExpItem = ({
 
 const SeeAllProfileItemsBtn = ({ title, n, handleShowAll, showAll }) => {
   return (
-    <Link onClick={handleShowAll}>
+    <Link width="100%" onClick={handleShowAll}>
       {showAll ? (
-        <Text fontSize="xs">See less</Text>
+        <Text textAlign={"center"} width="100%" fontSize="xs">
+          Collapse
+        </Text>
       ) : (
-        <Text fontSize="xs">
+        <Text textAlign={"center"} width="100%" fontSize="xs">
           See all {title} ({n})
         </Text>
       )}
     </Link>
   );
 };
-export const Education = ({ data, isEditMode }) => {
+
+export const Education = ({ data, isEditMode, isLoading }) => {
   const [showAll, setShowAll] = useState(false);
 
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
   };
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
 
@@ -454,7 +502,10 @@ const EducationItem = ({
   );
 };
 
-export const ProfileLinks = ({ data }) => {
+export const ProfileLinks = ({ data, isLoading }) => {
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
   return (
     <VStack gapY={4} width="100%">
       <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />

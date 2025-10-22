@@ -72,18 +72,41 @@ const fakeLinks = [
   },
 ];
 
-const HomeLoggedIn = () => {
+const ProfilePage = () => {
   const { user, logout } = useAuth();
   const [profile, setProfile] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(!profile ? true : false);
 
   const params = useParams();
   const userHandle = params.handle;
 
-  const getProfile = () => {};
+  const getProfile = async (userHandle) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/get-profile/${userHandle}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setProfile(data);
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch profile:", error);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getProfile();
+    getProfile(userHandle);
   }, [userHandle]);
 
   return (
@@ -92,6 +115,7 @@ const HomeLoggedIn = () => {
       paddingTop="80px"
       minHeight="100dvh"
       bgColor="gray.800"
+      // backgroundColor="black"
       paddingX={{ base: "20px", sm: "none" }}
     >
       <VStack alignItems="start" width="100%" maxWidth="600px">
@@ -128,15 +152,15 @@ const HomeLoggedIn = () => {
         </VStack>
 
         <VStack mt="50px" gap={16} alignContent="start" width="100%">
-          <WorkExperience data={fakeWorkExpData} />
+          <WorkExperience isLoading={isLoading} data={fakeWorkExpData} />
 
-          <Education data={fakeEduData} />
+          <Education isLoading={isLoading} data={fakeEduData} />
 
-          <ProfileLinks data={fakeLinks} />
+          <ProfileLinks isLoading={isLoading} data={fakeLinks} />
         </VStack>
       </VStack>
     </VStack>
   );
 };
 
-export default HomeLoggedIn;
+export default ProfilePage;
