@@ -32,6 +32,7 @@ import {
   WorkExperience,
   Education,
   ProfileLinks,
+  ProfileHeader,
 } from "@/components/common/common";
 import { useEffect, useState } from "react";
 
@@ -119,43 +120,11 @@ const ProfilePage = () => {
       paddingX={{ base: "20px", sm: "none" }}
     >
       <VStack alignItems="start" width="100%" maxWidth="600px">
-        <VStack gapY={0} alignItems="start" width="100%">
-          <VStack width="100%" alignItems="center">
-            <Image
-              width="100px"
-              height="100px"
-              borderRadius="full"
-              src={profile_image.src}
-            />
-
-            <VStack gapY={0}>
-              <Text fontSize="lg" mt="5px">
-                Igor Ezmayavitch
-              </Text>
-              <Text fontSize="xs">@igorezma</Text>
-            </VStack>
-            {/* <Text fontSize="xs">@i_ezmaya</Text> */}
-            {/* <HStack>
-              <Button
-                onClick={handleCopyLink}
-                borderRadius="full"
-                p={1}
-                bgColor="gray.700"
-              >
-                <Icon color="gray.100" as={FiPaperclip} boxSize={4} />
-              </Button>
-              <Button borderRadius="full" p={1} bgColor="gray.700">
-                <Icon color="gray.100" as={RiDownload2Fill} boxSize={4} />
-              </Button>
-            </HStack> */}
-          </VStack>
-        </VStack>
+        <ProfileHeader isLoading={isLoading} src={profile_image.src} />
 
         <VStack mt="50px" gap={16} alignContent="start" width="100%">
           <WorkExperience isLoading={isLoading} data={fakeWorkExpData} />
-
           <Education isLoading={isLoading} data={fakeEduData} />
-
           <ProfileLinks isLoading={isLoading} data={fakeLinks} />
         </VStack>
       </VStack>

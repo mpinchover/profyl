@@ -16,6 +16,7 @@ import {
   SkeletonCircle,
   SkeletonText,
   Stack,
+  Image,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { RiArrowLeftSLine, RiEditFill } from "react-icons/ri";
@@ -265,6 +266,46 @@ export const WorkExperience = ({ data, isEditMode, isLoading }) => {
           n={7}
         />
       )}
+    </VStack>
+  );
+};
+
+export const ProfileHeader = ({ src, isLoading }) => {
+  if (isLoading) {
+    return (
+      <VStack gapY={0} alignItems="start" width="100%">
+        <VStack gapY={4} width="100%" alignItems="center">
+          <SkeletonCircle backgroundColor="gray.700" size={"100px"} />
+          <VStack gapY={1}>
+            <SkeletonText
+              width="200px"
+              backgroundColor="gray.700"
+              noOfLines={1}
+              height="25px"
+            />
+            <SkeletonText
+              width="200px"
+              backgroundColor="gray.700"
+              noOfLines={1}
+            />
+          </VStack>
+        </VStack>
+      </VStack>
+    );
+  }
+
+  return (
+    <VStack gapY={0} alignItems="start" width="100%">
+      <VStack width="100%" alignItems="center">
+        <Image width="100px" height="100px" borderRadius="full" src={src} />
+
+        <VStack gapY={0}>
+          <Text fontSize="lg" mt="5px">
+            Igor Ezmayavitch
+          </Text>
+          <Text fontSize="xs">@igorezma</Text>
+        </VStack>
+      </VStack>
     </VStack>
   );
 };
