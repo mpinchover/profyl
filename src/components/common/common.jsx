@@ -185,29 +185,41 @@ export const AccountSaveCancelBtns = ({
 
 const LoadingSkeleton = () => {
   return (
-    <VStack width="100%" gapY={4} alignItems="start">
+    <VStack
+      bgColor="gray.900"
+      p={"20px"}
+      width="100%"
+      gapY={4}
+      alignItems="start"
+    >
       <SkeletonText
-        variant="shine"
+        // variant="shine"
         // css={{
         //   "--start-color": "colors.pink.500",
         //   "--end-color": "colors.orange.500",
         // }}
-        css={{
-          // "--start-color": "colors.pink.500",
-          // "--end-color": "red",
-          animationDuration: "3s",
-        }}
+        backgroundColor="gray.700"
+        css={
+          {
+            // "--start-color": "colors.pink.500",
+            // "--end-color": "red",
+            // animationDuration: "3s",
+          }
+        }
         width="200px"
         noOfLines={1}
       />{" "}
       <SkeletonText
-        variant="shine"
-        css={{
-          // "--start-color": "colors.pink.500",
-          // "--end-color": "red",
-          animationDuration: "3s",
-          // animationDelay: "s",
-        }}
+        // variant="shine"
+        backgroundColor="gray.700"
+        css={
+          {
+            // "--start-color": "colors.pink.500",
+            // "--end-color": "red",
+            // animationDuration: "3s",
+            // animationDelay: "s",
+          }
+        }
         width="full"
         noOfLines={3}
       />
@@ -234,6 +246,7 @@ export const WorkExperience = ({ data, isEditMode, isLoading }) => {
         return (
           <Box key={i} width="100%">
             <WorkExpItem
+              isLoading={isLoading}
               isEditMode={isEditMode}
               title={e.title}
               company={e.company}
@@ -326,20 +339,6 @@ const WorkExpItem = ({
           >
             {description}
           </Text>
-
-          {/* <Box
-            position="absolute"
-            opacity={hidden ? 1 : 0}
-            transition="0.2s ease"
-            right="0"
-            top="0"
-            bottom="0"
-            w="100%"
-            pointerEvents="none"
-            bgGradient="to-l"
-            gradientFrom="gray.900"
-            gradientTo="transparent"
-          ></Box> */}
         </Box>
         <Link
           onClick={handleSeeMore}
