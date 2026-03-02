@@ -228,8 +228,14 @@ const LoadingSkeleton = () => {
   );
 };
 
-export const WorkExperience = ({ data, isEditMode, isLoading }) => {
-  const [showAll, setShowAll] = useState(false);
+export const WorkExperience = ({
+  data,
+  isEditMode,
+  isLoading,
+  seeAll = false,
+  Icon = <IoMdBriefcase />,
+}) => {
+  // const [showAll, setShowAll] = useState();
 
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
@@ -239,11 +245,11 @@ export const WorkExperience = ({ data, isEditMode, isLoading }) => {
     return <LoadingSkeleton />;
   }
 
-  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
+  // const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
   return (
     <VStack width="100%" gapY={4} alignItems="start">
-      <SectionTitle title="Experience" icon={<IoMdBriefcase />} />
-      {dataToDisplay.map((e, i) => {
+      <SectionTitle title="Experience" icon={Icon} />
+      {data.map((e, i) => {
         return (
           <Box key={i} width="100%">
             <WorkExpItem
@@ -258,9 +264,9 @@ export const WorkExperience = ({ data, isEditMode, isLoading }) => {
           </Box>
         );
       })}
-      {!isEditMode && (
+      {!isEditMode && !seeAll && (
         <SeeAllProfileItemsBtn
-          showAll={showAll}
+          // showAll={showAll}
           handleShowAll={handleShowAll}
           title="experience"
           n={7}

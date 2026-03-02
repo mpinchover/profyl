@@ -97,6 +97,12 @@ const Navbar = () => {
                 >
                   Settings
                 </Menu.Item>
+                <Menu.Item
+                  onClick={() => router.push("/messages")}
+                  value="new-txt1"
+                >
+                  Messages
+                </Menu.Item>
                 <Menu.Item onClick={handleLogout} value="new-file">
                   Logout
                 </Menu.Item>

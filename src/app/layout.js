@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar";
 import { Box } from "@chakra-ui/react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/config/auth-context";
+import "stream-chat-react/dist/css/v2/index.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
