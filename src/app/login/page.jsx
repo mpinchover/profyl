@@ -47,10 +47,10 @@ const Login = () => {
     setPendingProvider(provider);
 
     try {
-      const { isNewUser } = await signinMethod();
+      await signinMethod();
 
-      // First sign-in puts them on the waitlist rather than into the app.
-      router.replace(isNewUser ? "/waitlist" : "/");
+      // Nobody has access yet — everyone lands on the waitlist.
+      router.replace("/waitlist");
     } catch (e) {
       console.log(e);
       if (e?.code !== "auth/popup-closed-by-user") {
@@ -64,7 +64,7 @@ const Login = () => {
     <PageShell center maxWidth="380px" gapY={{ base: "32px", md: "36px" }}>
       <PageHeading
         title="Welcome to Profyl"
-        subtitle="Sign in, or create an account with the same button."
+        subtitle="We're not open yet. Sign in to claim your spot on the waitlist."
       />
 
       <VStack width="100%" gapY="3">

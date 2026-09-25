@@ -55,7 +55,7 @@ const Navbar = () => {
             letterSpacing="-0.01em"
             color="gray.100"
           >
-            Profyl
+            vaddr
           </Text>
         </Link>
         <Menu.Root positioning={{ placement: "bottom-end", gutter: 0 }}>

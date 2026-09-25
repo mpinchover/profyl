@@ -20,7 +20,7 @@ const Waitlist = () => {
 
         <PageHeading
           title="You're on the waitlist"
-          subtitle="Thanks for signing up. We're letting people in a few at a time, and we'll reach out at the email you signed up with as soon as your spot opens."
+          subtitle="Thanks for your interest. We're letting people in a few at a time, and we'll reach out at the email you signed in with as soon as your spot opens."
         />
       </VStack>
 
