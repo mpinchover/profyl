@@ -235,7 +235,7 @@ export const WorkExperience = ({
   seeAll = false,
   Icon = <IoMdBriefcase />,
 }) => {
-  // const [showAll, setShowAll] = useState();
+  const [showAll, setShowAll] = useState(seeAll);
 
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
@@ -245,11 +245,11 @@ export const WorkExperience = ({
     return <LoadingSkeleton />;
   }
 
-  // const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
+  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
   return (
     <VStack width="100%" gapY={4} alignItems="start">
       <SectionTitle title="Experience" icon={Icon} />
-      {data.map((e, i) => {
+      {dataToDisplay.map((e, i) => {
         return (
           <Box key={i} width="100%">
             <WorkExpItem
@@ -266,10 +266,10 @@ export const WorkExperience = ({
       })}
       {!isEditMode && !seeAll && (
         <SeeAllProfileItemsBtn
-          // showAll={showAll}
+          showAll={showAll}
           handleShowAll={handleShowAll}
           title="experience"
-          n={7}
+          n={data.length}
         />
       )}
     </VStack>
@@ -339,8 +339,6 @@ const WorkExpItem = ({
     if (el) {
       // Chakra Text internally uses display: -webkit-box with lineClamp
       // So we compare scrollHeight to offsetHeight to detect overflow
-      console.log("d", description);
-      console.log("el scroll height", el.scrollHeight, el.offsetHeight);
       setIsOverflowing(el.scrollHeight > el.offsetHeight + 1);
     }
   }, [description, hidden]);
