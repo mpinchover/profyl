@@ -2,59 +2,34 @@ import { getApps, initializeApp, getApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
+// Firebase web config for the "vaddr-e4941" project. These values are not
+// secrets — they identify the project and ship to the browser in the client
+// bundle regardless. Access is controlled by the enabled auth providers,
+// the authorized domains list and security rules.
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyD6VX1_2J8GTHLsQ5KxIk00UujMQPQXqHY",
+  authDomain: "vaddr-e4941.firebaseapp.com",
+  projectId: "vaddr-e4941",
+  storageBucket: "vaddr-e4941.firebasestorage.app",
+  messagingSenderId: "812193331113",
+  appId: "1:812193331113:web:c433948724194cd08bf6b8",
+  measurementId: "G-M18KPBWHYJ",
 };
 
-const useEmulators = process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
+// Flip to true to point auth at a local emulator on 127.0.0.1:9099.
+const USE_EMULATORS = false;
 
-const isConfigured = Boolean(firebaseConfig.apiKey);
-
-// initializeApp/getAuth throw on an absent apiKey, and the root layout mounts
-// AuthProvider, so every prerendered page imports this module. Falling back to
-// placeholders keeps a build without config from dying on unrelated pages —
-// sign-in then fails at call time, where the problem actually is.
-const placeholderConfig = {
-  apiKey: "unconfigured",
-  authDomain: "localhost",
-  projectId: "unconfigured",
-  appId: "unconfigured",
-};
-
-if (!isConfigured && typeof window !== "undefined") {
-  // Warn in the browser rather than throwing at import time: a missing env var
-  // should surface as broken auth, not as a build that dies while prerendering
-  // unrelated pages.
-  console.error(
-    "Firebase is not configured. Set the NEXT_PUBLIC_FIREBASE_* environment " +
-      "variables (see .env.example) — sign-in will not work without them."
-  );
-}
-
-const app = getApps().length
-  ? getApp()
-  : initializeApp(isConfigured ? firebaseConfig : placeholderConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
-if (typeof window !== "undefined" && useEmulators) {
+if (typeof window !== "undefined" && USE_EMULATORS) {
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
 }
 
 // Analytics is browser-only and unavailable in some environments (SSR,
 // private modes, blocked scripts), so it is initialized behind isSupported().
-if (
-  typeof window !== "undefined" &&
-  isConfigured &&
-  !useEmulators &&
-  firebaseConfig.measurementId
-) {
+if (typeof window !== "undefined" && !USE_EMULATORS) {
   isSupported()
     .then((supported) => supported && getAnalytics(app))
     .catch(() => {});
