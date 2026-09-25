@@ -429,13 +429,7 @@ const ProfileItemCard = ({
     : details.slice(0, NUM_DETAILS_TO_SHOW_COLLAPSED);
   const hiddenDetailCount = details.length - visibleDetails.length;
 
-  const toggleLabel = details.length
-    ? expanded
-      ? "See less"
-      : `See ${hiddenDetailCount} more`
-    : expanded
-      ? "See less"
-      : "See more";
+  const toggleLabel = expanded ? "See less" : "See more";
 
   const showToggle =
     !isEditMode &&
