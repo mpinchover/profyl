@@ -14,15 +14,32 @@ const firebaseConfig = {
 
 const useEmulators = process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
 
-if (!firebaseConfig.apiKey && !useEmulators) {
-  // Failing loudly here beats an opaque auth/invalid-api-key at sign-in time.
-  throw new Error(
-    "Firebase is not configured. Copy .env.example to .env.local and fill in " +
-      "the NEXT_PUBLIC_FIREBASE_* values, then restart the dev server."
+const isConfigured = Boolean(firebaseConfig.apiKey);
+
+// initializeApp/getAuth throw on an absent apiKey, and the root layout mounts
+// AuthProvider, so every prerendered page imports this module. Falling back to
+// placeholders keeps a build without config from dying on unrelated pages —
+// sign-in then fails at call time, where the problem actually is.
+const placeholderConfig = {
+  apiKey: "unconfigured",
+  authDomain: "localhost",
+  projectId: "unconfigured",
+  appId: "unconfigured",
+};
+
+if (!isConfigured && typeof window !== "undefined") {
+  // Warn in the browser rather than throwing at import time: a missing env var
+  // should surface as broken auth, not as a build that dies while prerendering
+  // unrelated pages.
+  console.error(
+    "Firebase is not configured. Set the NEXT_PUBLIC_FIREBASE_* environment " +
+      "variables (see .env.example) — sign-in will not work without them."
   );
 }
 
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const app = getApps().length
+  ? getApp()
+  : initializeApp(isConfigured ? firebaseConfig : placeholderConfig);
 
 export const auth = getAuth(app);
 
@@ -32,7 +49,12 @@ if (typeof window !== "undefined" && useEmulators) {
 
 // Analytics is browser-only and unavailable in some environments (SSR,
 // private modes, blocked scripts), so it is initialized behind isSupported().
-if (typeof window !== "undefined" && !useEmulators && firebaseConfig.measurementId) {
+if (
+  typeof window !== "undefined" &&
+  isConfigured &&
+  !useEmulators &&
+  firebaseConfig.measurementId
+) {
   isSupported()
     .then((supported) => supported && getAnalytics(app))
     .catch(() => {});
