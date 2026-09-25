@@ -1,34 +1,40 @@
 "use client";
-import { VStack, Button, Grid, Center, Text, Flex } from "@chakra-ui/react";
+import { VStack, Button, Center, Text } from "@chakra-ui/react";
 import { useAuth } from "@/config/auth-context";
-import { GrGoogle } from "react-icons/gr";
-import { FaApple, FaGithub, FaDiscord } from "react-icons/fa";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { PageShell, PageHeading } from "@/components/common/common";
 
 const LoginOAuth = ({ title, icon, handleLogin }) => {
   return (
     <Button
-      w="100%"
-      maxW="300px" // all buttons share the same max width
-      h="48px" // consistent height
-      // variant="outline"
-      p={0}
-      justifyContent="center"
-      position={"relative"}
       onClick={handleLogin}
+      width="100%"
+      height="48px"
+      position="relative"
+      paddingX="0"
+      justifyContent="center"
+      bgColor="gray.900"
+      color="gray.100"
+      borderWidth="1px"
+      borderColor="gray.700"
+      borderRadius="lg"
+      fontSize="sm"
+      fontWeight="500"
+      transition="background-color 0.2s ease, border-color 0.2s ease"
+      _hover={{ bgColor: "gray.800", borderColor: "gray.600" }}
+      _active={{ bgColor: "gray.900" }}
     >
-      <Center position="absolute" boxSize="32px" left="10px">
+      <Center position="absolute" left="16px" boxSize="20px" color="gray.400">
         {icon}
       </Center>
-      <Text textAlign="center" w="100%">
-        Login with {title}
-      </Text>
+      Continue with {title}
     </Button>
   );
 };
 
 const Login = () => {
-  const { user, signInWithGoogle, signInWithGithub, logout } = useAuth();
+  const { signInWithGoogle, signInWithGithub } = useAuth();
   const router = useRouter();
 
   const handleLogin = (signinMethod) => {
@@ -38,40 +44,29 @@ const Login = () => {
   };
 
   return (
-    <VStack
-      paddingBottom="100px"
-      paddingTop="80px"
-      minHeight="100dvh"
-      bgColor="gray.800"
-      px={{ base: "20px", sm: 0 }}
-      height="100dvh"
-    >
-      <Flex
-        position="relative"
-        alignItems="center"
-        justifyContent="center"
-        w="100%"
-        maxW="600px"
-        h="100%"
-      >
-        <VStack w="100%" spacing={3}>
-          {" "}
-          {/* equal vertical spacing between buttons */}
-          <LoginOAuth
-            handleLogin={() => handleLogin(signInWithGoogle)}
-            icon={<GrGoogle />}
-            title="Google"
-          />
-          {/* <LoginOAuth icon={<FaApple />} title="Apple" /> */}
-          <LoginOAuth
-            handleLogin={() => handleLogin(signInWithGithub)}
-            icon={<FaGithub />}
-            title="Github"
-          />
-          {/* <LoginOAuth icon={<FaDiscord />} title="Discord" /> */}
-        </VStack>
-      </Flex>
-    </VStack>
+    <PageShell center maxWidth="380px" gapY={{ base: "32px", md: "36px" }}>
+      <PageHeading
+        title="Welcome to Profyl"
+        subtitle="Sign in, or create an account with the same button."
+      />
+
+      <VStack width="100%" gapY="3">
+        <LoginOAuth
+          handleLogin={() => handleLogin(signInWithGoogle)}
+          icon={<FaGoogle size="18px" />}
+          title="Google"
+        />
+        <LoginOAuth
+          handleLogin={() => handleLogin(signInWithGithub)}
+          icon={<FaGithub size="18px" />}
+          title="GitHub"
+        />
+      </VStack>
+
+      <Text color="gray.500" fontSize="xs" textAlign="center" lineHeight="1.6">
+        We only use your account to sign you in.
+      </Text>
+    </PageShell>
   );
 };
 

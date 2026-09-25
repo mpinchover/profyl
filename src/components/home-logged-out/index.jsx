@@ -1,58 +1,53 @@
 "use client";
-import {
-  VStack,
-  Link,
-  Image,
-  Text,
-  Button,
-  Box,
-  Heading,
-  Input,
-} from "@chakra-ui/react";
-import image1 from "./image1.png";
-import image2 from "./image2.png";
-import image3 from "./image3.png";
-import image4 from "./image4.png";
-import image5 from "./image5.png";
-import image6 from "./image6.png";
-import image7 from "./image7.png";
-import { useRouter } from "next/navigation";
-
-const BGImage = ({ src }) => {
-  return (
-    <Box borderRadius="md" overflow="hidden" height="150px" width="100%">
-      <Image filter="saturate(50%)" src={src} />
-    </Box>
-  );
-};
+import { VStack, Text, Button, Input } from "@chakra-ui/react";
+import { PageShell, PageHeading } from "@/components/common/common";
 
 const HomeLoggedOut = () => {
-  const router = useRouter();
   return (
-    <VStack
-      paddingBottom="80px"
-      paddingTop="80px"
-      minHeight="100dvh"
-      bgColor="gray.800"
-      paddingX={{ base: "20px", sm: "none" }}
-      gapY={14}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <PageShell center maxWidth="420px" gapY={{ base: "32px", md: "36px" }}>
+      <PageHeading
+        title="Join the waitlist"
+        subtitle="Leave your email and we'll let you know when Profyl is ready for you."
+      />
+
       <VStack
-        maxWidth="400px"
+        as="form"
+        onSubmit={(e) => e.preventDefault()}
         width="100%"
-        alignItems="center"
-        position="relative"
-        gapY={2}
+        gapY="3"
       >
-        <Heading fontWeight="400" size="lg">
-          Join waitlist.
-        </Heading>
-        <Input bgColor="gray.900" placeholder="Enter email" />
-        <Button width="100%">Submit</Button>
+        <Input
+          type="email"
+          placeholder="Enter email"
+          height="48px"
+          bgColor="gray.900"
+          borderWidth="1px"
+          borderColor="gray.700"
+          borderRadius="lg"
+          color="gray.100"
+          fontSize="sm"
+          paddingX="16px"
+          transition="border-color 0.2s ease"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{ borderColor: "gray.600" }}
+          _focusVisible={{ borderColor: "gray.500", outline: "none" }}
+        />
+        <Button
+          type="submit"
+          width="100%"
+          height="48px"
+          borderRadius="lg"
+          fontSize="sm"
+          fontWeight="600"
+        >
+          Submit
+        </Button>
       </VStack>
-    </VStack>
+
+      <Text color="gray.500" fontSize="xs" textAlign="center">
+        No spam — one email when we launch.
+      </Text>
+    </PageShell>
   );
 };
 

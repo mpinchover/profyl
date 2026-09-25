@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { IoMdBriefcase } from "react-icons/io";
 
 const NUM_ITEMS_TO_SHOW_PROFILE_SECTION = 1;
+const NUM_DETAILS_TO_SHOW_COLLAPSED = 2;
 
 // Single source of truth for the profile surfaces so every card on the
 // profile shares the same radius, padding, border and hover behaviour.
@@ -42,6 +43,56 @@ const numProfileItemsToShow = (showAll, isEditMode, data = []) => {
     return data;
   }
   return data.slice(0, NUM_ITEMS_TO_SHOW_PROFILE_SECTION);
+};
+
+// Shared page frame: dark canvas, fixed-navbar offset and the 600px reading
+// column every screen is built around.
+export const PageShell = ({
+  children,
+  maxWidth = "600px",
+  center = false,
+  gapY = { base: "32px", md: "40px" },
+}) => {
+  return (
+    <Flex
+      as="main"
+      direction="column"
+      alignItems="center"
+      justifyContent={center ? "center" : "flex-start"}
+      minHeight="100dvh"
+      bgColor="gray.800"
+      color="gray.300"
+      paddingTop={{ base: "84px", md: "96px" }}
+      paddingBottom={{ base: "64px", md: "96px" }}
+      paddingX={{ base: "20px", sm: "24px" }}
+    >
+      <VStack width="100%" maxWidth={maxWidth} alignItems="stretch" gapY={gapY}>
+        {children}
+      </VStack>
+    </Flex>
+  );
+};
+
+export const PageHeading = ({ title, subtitle }) => {
+  return (
+    <VStack gapY="2" textAlign="center">
+      <Text
+        as="h1"
+        color="gray.100"
+        fontSize={{ base: "2xl", sm: "3xl" }}
+        fontWeight="600"
+        letterSpacing="-0.02em"
+        lineHeight="1.2"
+      >
+        {title}
+      </Text>
+      {subtitle && (
+        <Text color="gray.400" fontSize="sm" lineHeight="1.6">
+          {subtitle}
+        </Text>
+      )}
+    </VStack>
+  );
 };
 
 export const DeleteProfileItemBtn = ({ handleDelete, profileSection }) => {
@@ -247,6 +298,7 @@ export const WorkExperience = ({
             start={e.start}
             end={e.end}
             description={e.description}
+            details={e.details}
             onEdit={() => "/update/experience/some-id"}
           />
         ))
@@ -345,6 +397,7 @@ const ProfileItemCard = ({
   start,
   end,
   description,
+  details = [],
   isEditMode,
   onEdit,
   clampLines = 3,
@@ -370,7 +423,25 @@ const ProfileItemCard = ({
     return () => observer.disconnect();
   }, [description, expanded]);
 
-  const showSeeMore = !isEditMode && !!description && (isOverflowing || expanded);
+  const showAllDetails = expanded || isEditMode;
+  const visibleDetails = showAllDetails
+    ? details
+    : details.slice(0, NUM_DETAILS_TO_SHOW_COLLAPSED);
+  const hiddenDetailCount = details.length - visibleDetails.length;
+
+  const toggleLabel = details.length
+    ? expanded
+      ? "See less"
+      : `See ${hiddenDetailCount} more`
+    : expanded
+      ? "See less"
+      : "See more";
+
+  const showToggle =
+    !isEditMode &&
+    (details.length
+      ? hiddenDetailCount > 0 || expanded
+      : !!description && (isOverflowing || expanded));
 
   return (
     <VStack
@@ -381,12 +452,12 @@ const ProfileItemCard = ({
       _hover={{ borderColor: "gray.600" }}
     >
       <HStack width="100%" justifyContent="space-between" gap="3" alignItems="start">
-        <HStack gap="2" flexWrap="wrap" rowGap="0.5">
+        <VStack alignItems="start" gapY="0.5">
           <Text color="gray.100" fontWeight="600">
             {primary}
           </Text>
           {secondary && <Text color="gray.300">{secondary}</Text>}
-        </HStack>
+        </VStack>
         {isEditMode && (
           <Button
             onClick={() => router.push(onEdit())}
@@ -415,10 +486,20 @@ const ProfileItemCard = ({
         </Text>
       )}
 
-      {showSeeMore && (
+      {visibleDetails.length > 0 && (
+        <VStack width="100%" alignItems="start" gapY="2" mt="1">
+          {visibleDetails.map((detail, i) => (
+            <Text key={i} color="gray.300" lineHeight="1.7">
+              {detail}
+            </Text>
+          ))}
+        </VStack>
+      )}
+
+      {showToggle && (
         <InlineToggleBtn
           onClick={() => setExpanded((prev) => !prev)}
-          label={expanded ? "See less" : "See more"}
+          label={toggleLabel}
         />
       )}
     </VStack>

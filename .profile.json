@@ -1,0 +1,45 @@
+{
+    "work_experience": [
+      {
+        "company": "Uber",
+        "role": "Software Engineer, Infrastructure",
+        "dates": "Jul 2024-Present",
+        "details": [
+          "Designed, built, and led the end-to-end fleetwide rollout of UMEMD, a user-space out-of-memory daemon that proactively evicts lower-priority containers before the kernel OOM killer locks up hosts; in production fleetwide and in enforcement mode across the stateless fleet.",
+          "Shipped full production readiness for UMEMD per-host and aggregated metrics, alerting with automated rollback gates, oncall runbooks, and synthetic validation and drove adoption with the batch, stateful, and stateless platform teams.",
+          "Led an M3 time-series cost-optimization initiative across uhostd/node_exporter, reducing metric ingestion from 36.5M to 27M writes/sec and daily platform spend from \\$12K to \\$7K (\\$1.25M in annualized savings) with zero loss of observability or alerting coverage.",
+          "Cut an additional ~\\$200K/year by migrating stats-collector resolution from 5s to 10s, driven by per-metric RPS/core/\\$-per-year analysis and dependent changes landed across uhostd, centralcollector, and the M3 platform.",
+          "Led the ZRAM memory-efficiency rollout onto Presto's Kubernetes hosts to reduce oncall toil, workload latency, and memory footprint; authored the PRR with tiered rollback and emergency remediation paths and staged low-traffic high-traffic fleetwide with no regressions.",
+          "Executed fleetwide OS and runtime migrations with zero downtime: Debian 11-12 across 200,000 machines, cgroup v2 on 4,000+ machines, and OCI OL8 on 5,000+ machines.",
+          "Mentored a summer intern from prototype to production on the DAMON cold-memory observability rollout (Go, Python, Starlark), and benchmarked transparent huge page (THP) kernel settings with JVM and Go service teams to lower RSS and prevent OOM-driven incidents."
+        ]
+      },
+      {
+        "company": "Sword Health",
+        "role": "Software Engineer",
+        "dates": "Jun 2023 - Jun 2024",
+        "details": [
+          "Led a full-stack healthcare PDF generation platform from design through production delivery.",
+          "Migrated production services to a new authentication and identity provider with zero downtime."
+        ]
+      },
+      {
+        "company": "Uber",
+        "role": "Software Engineer, Pricing",
+        "dates": "May 2020-Oct 2022",
+        "details": [
+          "Built and launched spot-market pricing features that generated \\$1.2M+ in revenue."
+        ]
+      }
+    ],
+    "education": [
+      {
+        "university": "Columbia University",
+        "degree": "B.A., Computer Science",
+        "dates": "2016-2020"
+      }
+    ],
+    "links": [
+      "github.com/mpinchover"
+    ]
+  }

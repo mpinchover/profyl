@@ -10,8 +10,14 @@ export default function Home() {
 
   if (loading) {
     return (
-      <Center minH="100vh">
-        <Spinner size="lg" thickness="3px" speed="0.65s" aria-label="Loading" />
+      <Center minHeight="100dvh" bgColor="gray.800">
+        <Spinner
+          size="lg"
+          borderWidth="3px"
+          color="gray.500"
+          animationDuration="0.65s"
+          aria-label="Loading"
+        />
       </Center>
     );
   }
