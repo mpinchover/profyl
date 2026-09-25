@@ -1,7 +1,7 @@
 "use client";
 import { VStack } from "@chakra-ui/react";
 import profile_image from "@/components/common/profile.png";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 
 import {
   PageShell,
@@ -16,14 +16,22 @@ import {
   education,
   links,
   profileName,
+  profileHandle,
 } from "@/data/profile";
 
 const ProfilePage = () => {
+  const params = useParams();
+
+  // Only one profile exists, so anything else is a 404 rather than an empty
+  // page. Checked before the other hooks so the miss path renders nothing.
+  if (String(params.handle).toLowerCase() !== profileHandle) {
+    notFound();
+  }
+
+  const userHandle = profileHandle;
+
   const [profile, setProfile] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
-  const params = useParams();
-  const userHandle = params.handle;
 
   const getProfile = async (userHandle) => {
     setIsLoading(true);

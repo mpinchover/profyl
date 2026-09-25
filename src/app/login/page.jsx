@@ -1,14 +1,16 @@
 "use client";
-import { VStack, Button, Center, Text } from "@chakra-ui/react";
+import { VStack, Button, Center, Text, Spinner } from "@chakra-ui/react";
 import { useAuth } from "@/config/auth-context";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { PageShell, PageHeading } from "@/components/common/common";
 
-const LoginOAuth = ({ title, icon, handleLogin }) => {
+const LoginOAuth = ({ title, icon, handleLogin, isPending, isDisabled }) => {
   return (
     <Button
       onClick={handleLogin}
+      disabled={isDisabled}
       width="100%"
       height="48px"
       position="relative"
@@ -24,9 +26,10 @@ const LoginOAuth = ({ title, icon, handleLogin }) => {
       transition="background-color 0.2s ease, border-color 0.2s ease"
       _hover={{ bgColor: "gray.800", borderColor: "gray.600" }}
       _active={{ bgColor: "gray.900" }}
+      _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
     >
       <Center position="absolute" left="16px" boxSize="20px" color="gray.400">
-        {icon}
+        {isPending ? <Spinner size="xs" borderWidth="2px" /> : icon}
       </Center>
       Continue with {title}
     </Button>
@@ -36,11 +39,25 @@ const LoginOAuth = ({ title, icon, handleLogin }) => {
 const Login = () => {
   const { signInWithGoogle, signInWithGithub } = useAuth();
   const router = useRouter();
+  const [pendingProvider, setPendingProvider] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleLogin = (signinMethod) => {
-    signinMethod()
-      .then(() => router.replace("/"))
-      .catch((e) => console.log(e));
+  const handleLogin = async (provider, signinMethod) => {
+    setError("");
+    setPendingProvider(provider);
+
+    try {
+      const { isNewUser } = await signinMethod();
+
+      // First sign-in puts them on the waitlist rather than into the app.
+      router.replace(isNewUser ? "/waitlist" : "/");
+    } catch (e) {
+      console.log(e);
+      if (e?.code !== "auth/popup-closed-by-user") {
+        setError("We couldn't log you in. Please try again.");
+      }
+      setPendingProvider(null);
+    }
   };
 
   return (
@@ -52,16 +69,26 @@ const Login = () => {
 
       <VStack width="100%" gapY="3">
         <LoginOAuth
-          handleLogin={() => handleLogin(signInWithGoogle)}
+          handleLogin={() => handleLogin("google", signInWithGoogle)}
+          isPending={pendingProvider === "google"}
+          isDisabled={!!pendingProvider}
           icon={<FaGoogle size="18px" />}
           title="Google"
         />
         <LoginOAuth
-          handleLogin={() => handleLogin(signInWithGithub)}
+          handleLogin={() => handleLogin("github", signInWithGithub)}
+          isPending={pendingProvider === "github"}
+          isDisabled={!!pendingProvider}
           icon={<FaGithub size="18px" />}
           title="GitHub"
         />
       </VStack>
+
+      {error && (
+        <Text color="red.300" fontSize="xs" textAlign="center">
+          {error}
+        </Text>
+      )}
 
       <Text color="gray.500" fontSize="xs" textAlign="center" lineHeight="1.6">
         We only use your account to sign you in.

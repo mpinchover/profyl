@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  getAdditionalUserInfo,
   setPersistence,
   browserLocalPersistence,
   signOut,
@@ -36,15 +37,29 @@ export const AuthProvider = ({ children }) => {
     return () => unsub();
   }, []);
 
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+  // A first-time sign-in is a waitlist signup: the account is kept so we have
+  // the email to reach out to, but the session is ended so they land on the
+  // waitlist screen instead of an app they don't have access to yet.
+  const signIn = async (provider) => {
+    const credential = await signInWithPopup(auth, provider);
+    const isNewUser = getAdditionalUserInfo(credential)?.isNewUser ?? false;
+
+    if (isNewUser) {
+      await signOut(auth);
+    }
+
+    return { isNewUser };
   };
 
-  const signInWithGithub = async () => {
-    const provider = new GithubAuthProvider();
-    await signInWithPopup(auth, provider);
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    // Always show the account chooser instead of silently reusing the one
+    // Google session the browser happens to have.
+    provider.setCustomParameters({ prompt: "select_account" });
+    return signIn(provider);
   };
+
+  const signInWithGithub = async () => signIn(new GithubAuthProvider());
 
   const logout = async () => {
     await signOut(auth);

@@ -12,7 +12,8 @@ const splitDates = (dates = "") => {
 };
 
 export const profileName = "Matt Pin";
-export const profileHandle = "mpinch";
+// The only profile this app serves; every other /p/<handle> is a 404.
+export const profileHandle = "mpin";
 
 export const workExperience = (profileJson.work_experience ?? []).map((e) => ({
   company: e.company,
