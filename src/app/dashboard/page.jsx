@@ -1,5 +1,5 @@
 "use client";
-import Protected from "@/components/auth/Protected";
+import Protected from "@/components/auth/protected";
 import { useAuth } from "@/config/auth-context";
 
 export default function DashboardPage() {
