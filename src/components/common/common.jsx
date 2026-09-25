@@ -5,33 +5,39 @@ import {
   Text,
   VStack,
   Button,
-  Grid,
-  Center,
-  Box,
   Flex,
   CloseButton,
   Dialog,
   Portal,
-  Skeleton,
+  Separator,
   SkeletonCircle,
   SkeletonText,
-  Stack,
   Image,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { RiArrowLeftSLine, RiEditFill } from "react-icons/ri";
-import { IoAdd, IoSchoolSharp } from "react-icons/io5";
-import { RxArrowRight } from "react-icons/rx";
+import { IoAdd, IoLink, IoSchoolSharp } from "react-icons/io5";
+import { RxArrowRight, RxArrowTopRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { IoMdBriefcase } from "react-icons/io";
-import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
-const fontSm = "10px";
-const dividerSm = "8px";
-const sectionDividerMd = "20px";
 const NUM_ITEMS_TO_SHOW_PROFILE_SECTION = 1;
 
-const numProfileItemsToShow = (showAll, isEditMode, data) => {
+// Single source of truth for the profile surfaces so every card on the
+// profile shares the same radius, padding, border and hover behaviour.
+const cardStyles = {
+  width: "100%",
+  bgColor: "gray.900",
+  borderRadius: "lg",
+  borderWidth: "1px",
+  borderColor: "gray.700",
+  padding: { base: "16px", sm: "20px" },
+  transition: "border-color 0.2s ease, background-color 0.2s ease",
+};
+
+const sectionGap = { base: "12px", sm: "16px" };
+
+const numProfileItemsToShow = (showAll, isEditMode, data = []) => {
   if (isEditMode || showAll) {
     return data;
   }
@@ -73,9 +79,22 @@ export const DeleteProfileItemBtn = ({ handleDelete, profileSection }) => {
 
 export const SectionTitle = ({ title, icon }) => {
   return (
-    <HStack color="gray.200" position="relative" width="100%">
-      {icon}
-      <Text fontWeight={"600"}>{title}</Text>
+    <HStack width="100%" gap="2.5">
+      {icon && (
+        <Flex color="gray.400" alignItems="center" fontSize="sm">
+          {icon}
+        </Flex>
+      )}
+      <Text
+        color="gray.100"
+        fontSize="sm"
+        fontWeight="600"
+        letterSpacing="0.01em"
+        whiteSpace="nowrap"
+      >
+        {title}
+      </Text>
+      <Separator flex="1" borderColor="gray.700" />
     </HStack>
   );
 };
@@ -83,15 +102,12 @@ export const SectionTitle = ({ title, icon }) => {
 export const AccountSectionTitleLink = ({ title, icon }) => {
   return (
     <Link
-      active={{ outline: "none" }}
+      width="100%"
       _focus={{ outline: "none", boxShadow: "none" }}
       _hover={{ textDecoration: "none" }}
       href={`/${title.toLowerCase()}`}
     >
-      <HStack color="gray.200" position="relative" width="100%">
-        {icon}
-        <Text fontWeight={"600"}>{title}</Text>
-      </HStack>
+      <SectionTitle title={title} icon={icon} />
     </Link>
   );
 };
@@ -99,14 +115,19 @@ export const AccountSectionTitleLink = ({ title, icon }) => {
 export const Back = ({ handleClick, route }) => {
   return (
     <Link
-      active={{ outline: "none" }}
-      _focus={{ outline: "none", boxShadow: "none" }}
-      _hover={{ textDecoration: "none" }}
       href={`/${route}`}
       onClick={handleClick}
+      display="inline-flex"
+      alignItems="center"
+      gap="0.5"
       fontSize="xs"
+      fontWeight="500"
+      color="gray.400"
+      transition="color 0.2s ease"
+      _focus={{ outline: "none", boxShadow: "none" }}
+      _hover={{ textDecoration: "none", color: "gray.100" }}
     >
-      <RiArrowLeftSLine size={18} />
+      <RiArrowLeftSLine size={16} />
       Back
     </Link>
   );
@@ -136,8 +157,6 @@ export const AddSectionItemBtn = ({ handleAdd, staticState, sectionToAdd }) => {
   return (
     <Button
       onClick={() => router.push("/new/experience")}
-      // opacity={staticState ? 1 : 0}
-      // pointerEvents={staticState ? "auto" : "none"}
       transition="opacity 0.2s ease-in-out"
       w="100%"
     >
@@ -155,12 +174,7 @@ export const AccountSaveCancelBtns = ({
 }) => {
   return (
     <Flex
-      // opacity={!staticState ? 1 : 0}
-      // pointerEvents={!staticState ? "auto" : "none"}
-      // transition="opacity 0.2s ease-in-out"
       width="100%"
-      // alignItems="start"
-      // bottom="20px"
       gap={2}
       flexDir={{ base: "column", sm: "row" }}
     >
@@ -169,8 +183,6 @@ export const AccountSaveCancelBtns = ({
       </Button>
       <Button
         onClick={handleCancel}
-        // variant="subtle"
-        // bgColor="gray.700"
         color="gray.100"
         border="1px solid"
         borderColor="gray.100"
@@ -184,52 +196,24 @@ export const AccountSaveCancelBtns = ({
   );
 };
 
-const LoadingSkeleton = () => {
-  return (
-    <VStack
-      bgColor="gray.900"
-      p={"20px"}
-      width="100%"
-      gapY={4}
-      alignItems="start"
-    >
-      <SkeletonText
-        // variant="shine"
-        // css={{
-        //   "--start-color": "colors.pink.500",
-        //   "--end-color": "colors.orange.500",
-        // }}
-        backgroundColor="gray.700"
-        css={
-          {
-            // "--start-color": "colors.pink.500",
-            // "--end-color": "red",
-            // animationDuration: "3s",
-          }
-        }
-        width="200px"
-        noOfLines={1}
-      />{" "}
-      <SkeletonText
-        // variant="shine"
-        backgroundColor="gray.700"
-        css={
-          {
-            // "--start-color": "colors.pink.500",
-            // "--end-color": "red",
-            // animationDuration: "3s",
-            // animationDelay: "s",
-          }
-        }
-        width="full"
-        noOfLines={3}
-      />
+const CardSkeleton = ({ count = 1, noOfLines = 2 }) => {
+  return Array.from({ length: count }).map((_, i) => (
+    <VStack key={i} {...cardStyles} gapY="3" alignItems="start">
+      <SkeletonText backgroundColor="gray.700" width="180px" noOfLines={1} />
+      <SkeletonText backgroundColor="gray.700" width="120px" noOfLines={1} />
+      {noOfLines > 0 && (
+        <SkeletonText
+          backgroundColor="gray.700"
+          width="full"
+          noOfLines={noOfLines}
+        />
+      )}
     </VStack>
-  );
+  ));
 };
 
 export const WorkExperience = ({
-  data,
+  data = [],
   isEditMode,
   isLoading,
   seeAll = false,
@@ -241,30 +225,33 @@ export const WorkExperience = ({
     setShowAll((prev) => !prev);
   };
 
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
-
   const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
+  const canSeeAll =
+    !isLoading &&
+    !isEditMode &&
+    !seeAll &&
+    data.length > NUM_ITEMS_TO_SHOW_PROFILE_SECTION;
+
   return (
-    <VStack width="100%" gapY={4} alignItems="start">
+    <VStack width="100%" gapY={sectionGap} alignItems="start">
       <SectionTitle title="Experience" icon={Icon} />
-      {dataToDisplay.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <WorkExpItem
-              isLoading={isLoading}
-              isEditMode={isEditMode}
-              title={e.title}
-              company={e.company}
-              start={e.start}
-              end={e.end}
-              description={e.description}
-            />
-          </Box>
-        );
-      })}
-      {!isEditMode && !seeAll && (
+      {isLoading ? (
+        <CardSkeleton count={2} />
+      ) : (
+        dataToDisplay.map((e, i) => (
+          <ProfileItemCard
+            key={`${e.company}-${e.start}-${i}`}
+            isEditMode={isEditMode}
+            primary={e.company}
+            secondary={e.title}
+            start={e.start}
+            end={e.end}
+            description={e.description}
+            onEdit={() => "/update/experience/some-id"}
+          />
+        ))
+      )}
+      {canSeeAll && (
         <SeeAllProfileItemsBtn
           showAll={showAll}
           handleShowAll={handleShowAll}
@@ -276,305 +263,281 @@ export const WorkExperience = ({
   );
 };
 
-export const ProfileHeader = ({ src, isLoading }) => {
+export const ProfileHeader = ({
+  src,
+  isLoading,
+  name = "Matt Pin",
+  handle = "igorezma",
+}) => {
   if (isLoading) {
     return (
-      <VStack gapY={0} alignItems="start" width="100%">
-        <VStack gapY={4} width="100%" alignItems="center">
-          <SkeletonCircle backgroundColor="gray.700" size={"100px"} />
-          <VStack gapY={1}>
-            <SkeletonText
-              width="200px"
-              backgroundColor="gray.700"
-              noOfLines={1}
-              height="25px"
-            />
-            <SkeletonText
-              width="200px"
-              backgroundColor="gray.700"
-              noOfLines={1}
-            />
-          </VStack>
+      <VStack width="100%" alignItems="center" gapY={{ base: "16px", sm: "20px" }}>
+        <SkeletonCircle
+          backgroundColor="gray.700"
+          size={{ base: "88px", sm: "104px" }}
+        />
+        <VStack gapY="2" alignItems="center">
+          <SkeletonText
+            width="180px"
+            height="20px"
+            backgroundColor="gray.700"
+            noOfLines={1}
+          />
+          <SkeletonText
+            width="100px"
+            backgroundColor="gray.700"
+            noOfLines={1}
+          />
         </VStack>
       </VStack>
     );
   }
 
   return (
-    <VStack gapY={0} alignItems="start" width="100%">
-      <VStack width="100%" alignItems="center">
-        <Image width="100px" height="100px" borderRadius="full" src={src} />
+    <VStack width="100%" alignItems="center" gapY={{ base: "16px", sm: "20px" }}>
+      <Image
+        src={src}
+        alt={name}
+        boxSize={{ base: "88px", sm: "104px" }}
+        borderRadius="full"
+        objectFit="cover"
+        bgColor="gray.900"
+        borderWidth="1px"
+        borderColor="gray.700"
+        boxShadow="0 10px 30px rgba(0, 0, 0, 0.35)"
+      />
 
-        <VStack gapY={0}>
-          <Text fontSize="lg" mt="5px">
-            Igor Ezmayavitch
-          </Text>
-          <Text fontSize="xs">@igorezma</Text>
-        </VStack>
+      <VStack gapY="1" textAlign="center">
+        <Text
+          color="gray.100"
+          fontSize={{ base: "xl", sm: "2xl" }}
+          fontWeight="600"
+          letterSpacing="-0.02em"
+          lineHeight="1.2"
+        >
+          {name}
+        </Text>
+        <Text color="gray.400" fontSize="sm">
+          @{String(handle).replace(/^@/, "")}
+        </Text>
       </VStack>
     </VStack>
   );
 };
 
-const WorkExpItem = ({
-  start,
-  end,
-  title,
-  company,
-  description,
-  isEditMode,
-  isLoading,
-}) => {
-  const router = useRouter();
-  const [hidden, setHidden] = useState(!isEditMode);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const textRef = useRef(null);
-
-  const handleSeeMore = () => {
-    setHidden((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const el = textRef.current;
-    if (el) {
-      // Chakra Text internally uses display: -webkit-box with lineClamp
-      // So we compare scrollHeight to offsetHeight to detect overflow
-      setIsOverflowing(el.scrollHeight > el.offsetHeight + 1);
-    }
-  }, [description, hidden]);
+const DateRange = ({ start, end }) => {
+  if (!start && !end) return null;
 
   return (
-    <HStack
-      borderRadius="sm"
-      bgColor="gray.900"
-      p="20px"
-      fontSize="sm"
-      w="100%"
-      position="relative"
-    >
-      <VStack alignItems="start" spacing={1} w="100%">
-        <HStack width="100%" justifyContent={"space-between"}>
-          <HStack>
-            <Text>{company}</Text>
-            <Text fontWeight="200">{title}</Text>
-          </HStack>
-          {isEditMode && (
-            <Button
-              onClick={() => router.push("/update/experience/some-id")}
-              variant="ghost"
-              size="xs"
-            >
-              <RiEditFill />
-            </Button>
-          )}
-        </HStack>
-
-        <HStack fontWeight="200">
-          <Text>{start}</Text>
-          <RxArrowRight size="12px" />
-          <Text>{end}</Text>
-        </HStack>
-
-        {/* One-line clamp + fade + ellipsis */}
-        <Box position="relative" w="100%">
-          <Text
-            ref={textRef}
-            transition="0.2s ease"
-            lineClamp={hidden ? 2 : "none"}
-          >
-            {description}
-          </Text>
-        </Box>
-        <Link
-          onClick={handleSeeMore}
-          transition="0.2s ease"
-          _hover={{ color: "white" }}
-          zIndex={10}
-          variant="subtle"
-          fontSize="xs"
-        >
-          {!isEditMode && isOverflowing && (hidden ? "See more" : "See less")}
-        </Link>
-      </VStack>
+    <HStack color="gray.400" fontSize="xs" gap="1.5" fontWeight="400">
+      <Text>{start}</Text>
+      <RxArrowRight size="12px" />
+      <Text>{end}</Text>
     </HStack>
   );
 };
 
-const SeeAllProfileItemsBtn = ({ title, n, handleShowAll, showAll }) => {
+// Shared card for experience and education entries: same header row, the same
+// date range treatment and the same clamped description with a See more toggle.
+const ProfileItemCard = ({
+  primary,
+  secondary,
+  start,
+  end,
+  description,
+  isEditMode,
+  onEdit,
+  clampLines = 3,
+}) => {
+  const router = useRouter();
+  const [expanded, setExpanded] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+
+    // Chakra clamps with display:-webkit-box, so overflow shows up as a
+    // scrollHeight taller than the rendered box.
+    const measure = () =>
+      setIsOverflowing(el.scrollHeight > el.offsetHeight + 1);
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [description, expanded]);
+
+  const showSeeMore = !isEditMode && !!description && (isOverflowing || expanded);
+
   return (
-    <Link width="100%" onClick={handleShowAll}>
-      {showAll ? (
-        <Text textAlign={"center"} width="100%" fontSize="xs">
-          Collapse
-        </Text>
-      ) : (
-        <Text textAlign={"center"} width="100%" fontSize="xs">
-          See all {title} ({n})
+    <VStack
+      {...cardStyles}
+      gapY="2"
+      alignItems="start"
+      fontSize="sm"
+      _hover={{ borderColor: "gray.600" }}
+    >
+      <HStack width="100%" justifyContent="space-between" gap="3" alignItems="start">
+        <HStack gap="2" flexWrap="wrap" rowGap="0.5">
+          <Text color="gray.100" fontWeight="600">
+            {primary}
+          </Text>
+          {secondary && <Text color="gray.300">{secondary}</Text>}
+        </HStack>
+        {isEditMode && (
+          <Button
+            onClick={() => router.push(onEdit())}
+            variant="ghost"
+            size="xs"
+            color="gray.400"
+            _hover={{ color: "gray.100", bgColor: "gray.800" }}
+            aria-label={`Edit ${primary}`}
+          >
+            <RiEditFill />
+          </Button>
+        )}
+      </HStack>
+
+      <DateRange start={start} end={end} />
+
+      {!!description && (
+        <Text
+          ref={textRef}
+          color="gray.300"
+          lineHeight="1.7"
+          mt="1"
+          lineClamp={expanded ? "none" : clampLines}
+        >
+          {description}
         </Text>
       )}
-    </Link>
-  );
-};
 
-export const Education = ({ data, isEditMode, isLoading }) => {
-  const [showAll, setShowAll] = useState(false);
-
-  const handleShowAll = () => {
-    setShowAll((prev) => !prev);
-  };
-
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
-
-  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
-
-  return (
-    <VStack width="100%" gapY={4} alignItems="start">
-      <SectionTitle title="Education" icon={<IoSchoolSharp />} />
-      {dataToDisplay.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <EducationItem
-              isEditMode={isEditMode}
-              name={e.name}
-              start={e.start}
-              end={e.end}
-              degree={e.degree}
-            />
-          </Box>
-        );
-      })}
-      {!isEditMode && dataToDisplay.length >= 2 && (
-        <SeeAllProfileItemsBtn
-          showAll={showAll}
-          handleShowAll={handleShowAll}
-          title="education"
-          n={7}
+      {showSeeMore && (
+        <InlineToggleBtn
+          onClick={() => setExpanded((prev) => !prev)}
+          label={expanded ? "See less" : "See more"}
         />
       )}
     </VStack>
   );
 };
 
-const EducationItem = ({
-  id, // e.g. education item uuid
-  start,
-  end,
-  name, // school
-  degree, // e.g. B.S. Computer Science
-  description = "", // optional: coursework, honors, summary
-  isEditMode,
-}) => {
-  const router = useRouter();
-  const [hidden, setHidden] = useState(!isEditMode);
-  const handleSeeMore = () => setHidden((prev) => !prev);
-
-  const showSeeMore = !isEditMode && description && description.length > 0;
-
+const InlineToggleBtn = ({ onClick, label }) => {
   return (
-    <HStack
-      borderRadius="sm"
-      bgColor="gray.900"
-      p="20px"
-      fontSize="sm"
-      w="100%"
-      position="relative"
+    <Button
+      onClick={onClick}
+      variant="plain"
+      height="auto"
+      minHeight="0"
+      paddingX="0"
+      fontSize="xs"
+      fontWeight="500"
+      color="gray.400"
+      _hover={{ color: "gray.100" }}
+      transition="color 0.2s ease"
     >
-      <VStack alignItems="start" spacing={1} w="100%">
-        <HStack w="100%" justifyContent="space-between">
-          <HStack>
-            <Text>{name}</Text>
-            <Text fontWeight="200">{degree}</Text>
-          </HStack>
-
-          {isEditMode && (
-            <Button
-              onClick={() => router.push(`/update/education/"some-id"`)}
-              variant="ghost"
-              size="xs"
-            >
-              <RiEditFill />
-            </Button>
-          )}
-        </HStack>
-
-        <HStack fontWeight="200">
-          <Text>{start}</Text>
-          <RxArrowRight size="12px" />
-          <Text>{end}</Text>
-        </HStack>
-
-        {!!description && (
-          <>
-            {/* One-line clamp + fade + ellipsis (mirrors WorkExpItem) */}
-            <Box position="relative" w="100%">
-              <Text transition="0.2s ease" lineClamp={hidden ? 1 : "none"}>
-                {description}
-              </Text>
-              <Box
-                position="absolute"
-                opacity={hidden ? 1 : 0}
-                transition="0.2s ease"
-                right="0"
-                top="0"
-                bottom="0"
-                w="100%"
-                pointerEvents="none"
-                bgGradient="to-l"
-                gradientFrom="gray.900"
-                gradientTo="transparent"
-              />
-            </Box>
-
-            {showSeeMore && (
-              <Link
-                onClick={handleSeeMore}
-                transition="0.2s ease"
-                _hover={{ color: "white" }}
-                zIndex={10}
-                variant="subtle"
-                fontSize="xs"
-              >
-                {hidden ? "See more" : "See less"}
-              </Link>
-            )}
-          </>
-        )}
-      </VStack>
-    </HStack>
+      {label}
+    </Button>
   );
 };
 
-export const ProfileLinks = ({ data, isLoading }) => {
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
+const SeeAllProfileItemsBtn = ({ title, n, handleShowAll, showAll }) => {
   return (
-    <VStack gapY={4} width="100%">
-      <SectionTitle title="Links" icon={<FaExternalLinkSquareAlt />} />
-      {data.map((e, i) => {
-        return (
-          <Box key={i} width="100%">
-            <PLink url={e.url} />
-          </Box>
-        );
-      })}
+    <Flex width="100%" justifyContent="center" paddingTop="1">
+      <InlineToggleBtn
+        onClick={handleShowAll}
+        label={showAll ? "Show less" : `See all ${title} (${n})`}
+      />
+    </Flex>
+  );
+};
+
+export const Education = ({ data = [], isEditMode, isLoading }) => {
+  const [showAll, setShowAll] = useState(false);
+
+  const handleShowAll = () => {
+    setShowAll((prev) => !prev);
+  };
+
+  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
+  const canSeeAll =
+    !isLoading &&
+    !isEditMode &&
+    data.length > NUM_ITEMS_TO_SHOW_PROFILE_SECTION;
+
+  return (
+    <VStack width="100%" gapY={sectionGap} alignItems="start">
+      <SectionTitle title="Education" icon={<IoSchoolSharp />} />
+      {isLoading ? (
+        <CardSkeleton count={1} />
+      ) : (
+        dataToDisplay.map((e, i) => (
+          <ProfileItemCard
+            key={`${e.name}-${e.start}-${i}`}
+            isEditMode={isEditMode}
+            primary={e.name}
+            secondary={e.degree}
+            start={e.start}
+            end={e.end}
+            description={e.description}
+            onEdit={() => "/update/education/some-id"}
+          />
+        ))
+      )}
+      {canSeeAll && (
+        <SeeAllProfileItemsBtn
+          showAll={showAll}
+          handleShowAll={handleShowAll}
+          title="education"
+          n={data.length}
+        />
+      )}
+    </VStack>
+  );
+};
+
+export const ProfileLinks = ({ data = [], isLoading }) => {
+  return (
+    <VStack width="100%" gapY={sectionGap} alignItems="start">
+      <SectionTitle title="Links" icon={<IoLink />} />
+      {isLoading ? (
+        <CardSkeleton count={2} noOfLines={0} />
+      ) : (
+        data.map((e, i) => <PLink key={`${e.url}-${i}`} url={e.url} />)
+      )}
     </VStack>
   );
 };
 
 const PLink = ({ url }) => {
+  const href = /^https?:\/\//.test(url) ? url : `https://${url}`;
+
   return (
-    <HStack
-      borderRadius="sm"
-      bgColor="gray.900"
-      p={"20px"}
-      fontSize={"sm"}
+    <Link
+      {...cardStyles}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      display="flex"
       alignItems="center"
+      justifyContent="space-between"
+      gap="3"
+      fontSize="sm"
+      color="gray.300"
+      _hover={{
+        textDecoration: "none",
+        color: "gray.100",
+        borderColor: "gray.600",
+      }}
+      _focusVisible={{ outline: "none", borderColor: "gray.600" }}
     >
-      {/* <RxGithubLogo /> */}
-      <Link>{url}</Link>
-    </HStack>
+      <Text truncate>{url}</Text>
+      <Flex color="gray.400" flexShrink={0}>
+        <RxArrowTopRight size="14px" />
+      </Flex>
+    </Link>
   );
 };

@@ -1,8 +1,15 @@
 "use client";
-import { HStack, Menu, Text, Button, Portal, Link } from "@chakra-ui/react";
+import { HStack, Menu, Text, Portal, Link, IconButton } from "@chakra-ui/react";
 import { RiMenu4Line } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/config/auth-context";
+
+const loggedOutItems = [{ label: "Login", route: "/login" }];
+
+const loggedInItems = [
+  { label: "Settings", route: "/settings" },
+  { label: "Messages", route: "/messages" },
+];
 
 const Navbar = () => {
   const router = useRouter();
@@ -13,99 +20,86 @@ const Navbar = () => {
     router.replace("/");
   };
 
-  if (!user) {
-    return (
-      <HStack
-        justifyContent="center"
-        paddingY="20px"
-        position="absolute"
-        width="100%"
-        paddingX={{ base: "20px", sm: "none" }}
-      >
-        <HStack
-          justifyContent={"space-between"}
-          alignItems="center"
-          width="100%"
-          maxWidth="600px"
-        >
-          <Link
-            active={{ outline: "none" }}
-            _focus={{ outline: "none", boxShadow: "none" }}
-            _hover={{ textDecoration: "none" }}
-            href="/"
-          >
-            <Text fontSize="16px" fontWeight="500" color="white">
-              Profyl
-            </Text>
-          </Link>
-          <Menu.Root>
-            <Menu.Trigger asChild>
-              <RiMenu4Line size={"20px"} />
-            </Menu.Trigger>
-            <Portal>
-              <Menu.Positioner>
-                <Menu.Content>
-                  <Menu.Item
-                    onClick={() => router.push("/login")}
-                    value="new-file"
-                  >
-                    Login
-                  </Menu.Item>
-                </Menu.Content>
-              </Menu.Positioner>
-            </Portal>
-          </Menu.Root>
-        </HStack>
-      </HStack>
-    );
-  }
+  const items = user ? loggedInItems : loggedOutItems;
 
   return (
     <HStack
+      as="header"
       justifyContent="center"
-      paddingY="20px"
-      position="absolute"
-      width="100%"
-      paddingX={{ base: "20px", sm: "none" }}
+      position="fixed"
+      top="0"
+      left="0"
+      right="0"
+      zIndex="banner"
+      height={{ base: "64px", md: "72px" }}
+      paddingX={{ base: "20px", sm: "24px" }}
+      bgColor="rgba(39, 39, 42, 0.72)"
+      backdropFilter="saturate(180%) blur(12px)"
+      borderBottomWidth="1px"
+      borderColor="gray.700"
     >
       <HStack
-        justifyContent={"space-between"}
+        justifyContent="space-between"
         alignItems="center"
         width="100%"
         maxWidth="600px"
       >
         <Link
-          active={{ outline: "none" }}
-          _focus={{ outline: "none", boxShadow: "none" }}
-          _hover={{ textDecoration: "none" }}
           href="/"
+          _focus={{ outline: "none", boxShadow: "none" }}
+          _hover={{ textDecoration: "none", color: "white" }}
         >
-          <Text fontSize="16px" fontWeight="500" color="white">
+          <Text
+            fontSize="md"
+            fontWeight="600"
+            letterSpacing="-0.01em"
+            color="gray.100"
+          >
             Profyl
           </Text>
         </Link>
-        <Menu.Root>
+        <Menu.Root positioning={{ placement: "bottom-end", gutter: 0 }}>
           <Menu.Trigger asChild>
-            <RiMenu4Line size={"20px"} />
+            <IconButton
+              aria-label="Open menu"
+              variant="ghost"
+              size="sm"
+              color="gray.300"
+              _hover={{ color: "white", bgColor: "gray.700" }}
+            >
+              <RiMenu4Line size="20px" />
+            </IconButton>
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>
-              <Menu.Content>
-                <Menu.Item
-                  onClick={() => router.push("/settings")}
-                  value="new-txt"
-                >
-                  Settings
-                </Menu.Item>
-                <Menu.Item
-                  onClick={() => router.push("/messages")}
-                  value="new-txt1"
-                >
-                  Messages
-                </Menu.Item>
-                <Menu.Item onClick={handleLogout} value="new-file">
-                  Logout
-                </Menu.Item>
+              <Menu.Content
+                zIndex="popover"
+                bgColor="gray.900"
+                borderWidth="1px"
+                borderColor="gray.700"
+                minWidth="160px"
+              >
+                {items.map((item) => (
+                  <Menu.Item
+                    key={item.route}
+                    value={item.route}
+                    onClick={() => router.push(item.route)}
+                    color="gray.200"
+                    _hover={{ bgColor: "gray.800", color: "white" }}
+                  >
+                    {item.label}
+                  </Menu.Item>
+                ))}
+                {user && (
+                  <Menu.Item
+                    value="logout"
+                    onClick={handleLogout}
+                    color="gray.200"
+                    _hover={{ bgColor: "gray.800", color: "white" }}
+                  >
+                    Logout
+                  </Menu.Item>
+                )}
               </Menu.Content>
             </Menu.Positioner>
           </Portal>

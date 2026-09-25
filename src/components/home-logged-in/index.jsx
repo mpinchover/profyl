@@ -101,7 +101,7 @@ const HomeLoggedIn = () => {
 
             <VStack gapY={0}>
               <Text fontSize="lg" mt="5px">
-                Igor Ezmayavitch
+                Matt Pin
               </Text>
               <Text fontSize="xs">@igorezma</Text>
             </VStack>

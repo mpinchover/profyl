@@ -14,7 +14,7 @@ import {
   Image,
   Button,
 } from "@chakra-ui/react";
-import profile_image from "../profile.png";
+import profile_image from "@/components/common/profile.png";
 import { RiEditFill } from "react-icons/ri";
 import {
   SectionTitle,

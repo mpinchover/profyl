@@ -1,39 +1,9 @@
 "use client";
-import {
-  Box,
-  Text,
-  Image,
-  VStack,
-  HStack,
-  Link,
-  Button,
-  LinkBox,
-  Icon,
-  StackSeparator,
-  Textarea,
-  Flex,
-} from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import profile_image from "@/components/common/profile.png";
-import { FiPaperclip } from "react-icons/fi";
-import { RxArrowRight } from "react-icons/rx";
-import { Separator } from "@chakra-ui/react";
-import { RxGithubLogo } from "react-icons/rx";
-import { RiArrowLeftSLine, RiDownload2Fill } from "react-icons/ri";
-import { IoMdBriefcase } from "react-icons/io";
-import { IoSchoolSharp } from "react-icons/io5";
-import { FaExternalLinkSquareAlt } from "react-icons/fa";
-import { IoMdImage } from "react-icons/io";
-import { Toaster, toaster } from "@/components/ui/toaster";
-import { useAuth } from "@/config/auth-context";
 import { useParams } from "next/navigation";
 
-import {
-  SectionTitle,
-  WorkExperience,
-  Education,
-  ProfileLinks,
-  ProfileHeader,
-} from "@/components/common/common";
+import { Back, WorkExperience, ProfileHeader } from "@/components/common/common";
 import { useEffect, useState } from "react";
 
 const fakeWorkExpData = [
@@ -72,9 +42,8 @@ const fakeWorkExpData = [
 ];
 
 const ProfilePage = () => {
-  const { user, logout } = useAuth();
   const [profile, setProfile] = useState();
-  const [isLoading, setIsLoading] = useState(!profile ? true : false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const params = useParams();
   const userHandle = params.handle;
@@ -110,22 +79,32 @@ const ProfilePage = () => {
 
   return (
     <VStack
-      paddingBottom="100px"
-      paddingTop="80px"
+      as="main"
       minHeight="100dvh"
       bgColor="gray.800"
-      // backgroundColor="black"
-      paddingX={{ base: "20px", sm: "none" }}
+      color="gray.300"
+      paddingTop={{ base: "84px", md: "96px" }}
+      paddingBottom={{ base: "64px", md: "96px" }}
+      paddingX={{ base: "20px", sm: "24px" }}
     >
-      <VStack alignItems="start" width="100%" maxWidth="600px">
-        <ProfileHeader isLoading={isLoading} src={profile_image.src} />
+      <VStack
+        width="100%"
+        maxWidth="600px"
+        alignItems="stretch"
+        gapY={{ base: "32px", md: "40px" }}
+      >
+        <ProfileHeader
+          isLoading={isLoading}
+          src={profile_image.src}
+          handle={userHandle}
+        />
 
-        <VStack mt="50px" gap={16} alignContent="start" width="100%">
+        <VStack width="100%" alignItems="start" gapY={{ base: "16px", md: "20px" }}>
+          <Back route={`p/${userHandle}`} />
           <WorkExperience
             isLoading={isLoading}
             data={fakeWorkExpData}
             seeAll={true}
-            Icon={<RiArrowLeftSLine size={18} />}
           />
         </VStack>
       </VStack>
