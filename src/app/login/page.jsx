@@ -63,8 +63,7 @@ const Login = () => {
   return (
     <PageShell center maxWidth="380px" gapY={{ base: "32px", md: "36px" }}>
       <PageHeading
-        title="Welcome to Profyl"
-        subtitle="We're not open yet. Sign in to claim your spot on the waitlist."
+        title="Welcome to vaddr"
       />
 
       <VStack width="100%" gapY="3">

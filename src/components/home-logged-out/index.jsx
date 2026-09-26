@@ -7,7 +7,7 @@ const HomeLoggedOut = () => {
     <PageShell center maxWidth="420px" gapY={{ base: "32px", md: "36px" }}>
       <PageHeading
         title="Join the waitlist"
-        subtitle="Leave your email and we'll let you know when Profyl is ready for you."
+        subtitle="Leave your email and we'll let you know when vaddr is ready for you."
       />
 
       <VStack

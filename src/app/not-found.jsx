@@ -17,7 +17,7 @@ const NotFound = () => {
 
       <PageHeading
         title="Page not found"
-        subtitle="That page doesn't exist, or the profile you're looking for isn't on Profyl."
+        subtitle="That page doesn't exist, or the profile you're looking for isn't on vaddr."
       />
 
       <Text color="gray.500" fontSize="xs" textAlign="center">

@@ -77,7 +77,6 @@ const ProfilePage = () => {
         <WorkExperience
           isLoading={isLoading}
           data={workExperience}
-          seeAll={true}
         />
       </VStack>
     </PageShell>

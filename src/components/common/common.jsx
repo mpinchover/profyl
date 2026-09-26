@@ -21,7 +21,6 @@ import { RxArrowRight, RxArrowTopRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { IoMdBriefcase } from "react-icons/io";
 
-const NUM_ITEMS_TO_SHOW_PROFILE_SECTION = 1;
 const NUM_DETAILS_TO_SHOW_COLLAPSED = 2;
 
 // Single source of truth for the profile surfaces so every card on the
@@ -37,13 +36,6 @@ const cardStyles = {
 };
 
 const sectionGap = { base: "12px", sm: "16px" };
-
-const numProfileItemsToShow = (showAll, isEditMode, data = []) => {
-  if (isEditMode || showAll) {
-    return data;
-  }
-  return data.slice(0, NUM_ITEMS_TO_SHOW_PROFILE_SECTION);
-};
 
 // Shared page frame: dark canvas, fixed-navbar offset and the 600px reading
 // column every screen is built around.
@@ -267,29 +259,15 @@ export const WorkExperience = ({
   data = [],
   isEditMode,
   isLoading,
-  seeAll = false,
   Icon = <IoMdBriefcase />,
 }) => {
-  const [showAll, setShowAll] = useState(seeAll);
-
-  const handleShowAll = () => {
-    setShowAll((prev) => !prev);
-  };
-
-  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
-  const canSeeAll =
-    !isLoading &&
-    !isEditMode &&
-    !seeAll &&
-    data.length > NUM_ITEMS_TO_SHOW_PROFILE_SECTION;
-
   return (
     <VStack width="100%" gapY={sectionGap} alignItems="start">
       <SectionTitle title="Experience" icon={Icon} />
       {isLoading ? (
         <CardSkeleton count={2} />
       ) : (
-        dataToDisplay.map((e, i) => (
+        data.map((e, i) => (
           <ProfileItemCard
             key={`${e.company}-${e.start}-${i}`}
             isEditMode={isEditMode}
@@ -302,14 +280,6 @@ export const WorkExperience = ({
             onEdit={() => "/update/experience/some-id"}
           />
         ))
-      )}
-      {canSeeAll && (
-        <SeeAllProfileItemsBtn
-          showAll={showAll}
-          handleShowAll={handleShowAll}
-          title="experience"
-          n={data.length}
-        />
       )}
     </VStack>
   );
@@ -519,37 +489,14 @@ const InlineToggleBtn = ({ onClick, label }) => {
   );
 };
 
-const SeeAllProfileItemsBtn = ({ title, n, handleShowAll, showAll }) => {
-  return (
-    <Flex width="100%" justifyContent="center" paddingTop="1">
-      <InlineToggleBtn
-        onClick={handleShowAll}
-        label={showAll ? "Show less" : `See all ${title} (${n})`}
-      />
-    </Flex>
-  );
-};
-
 export const Education = ({ data = [], isEditMode, isLoading }) => {
-  const [showAll, setShowAll] = useState(false);
-
-  const handleShowAll = () => {
-    setShowAll((prev) => !prev);
-  };
-
-  const dataToDisplay = numProfileItemsToShow(showAll, isEditMode, data);
-  const canSeeAll =
-    !isLoading &&
-    !isEditMode &&
-    data.length > NUM_ITEMS_TO_SHOW_PROFILE_SECTION;
-
   return (
     <VStack width="100%" gapY={sectionGap} alignItems="start">
       <SectionTitle title="Education" icon={<IoSchoolSharp />} />
       {isLoading ? (
         <CardSkeleton count={1} />
       ) : (
-        dataToDisplay.map((e, i) => (
+        data.map((e, i) => (
           <ProfileItemCard
             key={`${e.name}-${e.start}-${i}`}
             isEditMode={isEditMode}
@@ -561,14 +508,6 @@ export const Education = ({ data = [], isEditMode, isLoading }) => {
             onEdit={() => "/update/education/some-id"}
           />
         ))
-      )}
-      {canSeeAll && (
-        <SeeAllProfileItemsBtn
-          showAll={showAll}
-          handleShowAll={handleShowAll}
-          title="education"
-          n={data.length}
-        />
       )}
     </VStack>
   );
